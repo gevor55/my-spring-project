@@ -6,6 +6,7 @@ import com.myspringproject.dto.CafeResponseDto;
 import com.myspringproject.mapper.CafeMapper;
 import com.myspringproject.model.Cafe;
 import com.myspringproject.repository.CafeRepository;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Log4j2
 public class CafeServiceImpl implements CafeService {
 
     private final CafeRepository cafeRepository;
@@ -60,10 +62,12 @@ public class CafeServiceImpl implements CafeService {
 
     @Override
     public void deleteById(Long id) {
+        log.trace("Starting delete cafe with id: {}.", id);
         Optional<Cafe> cafe = cafeRepository.findById(id);
         if (cafe.isEmpty()) {
             throw new NoSuchDataException("Not found " + id);
         }
+        log.debug("Cafe with id: {} successfully deleted.", id);
         cafeRepository.deleteById(id);
     }
 }
