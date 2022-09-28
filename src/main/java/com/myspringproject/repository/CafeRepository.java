@@ -7,7 +7,5 @@ public interface CafeRepository extends JpaRepository<Cafe, Long> {
     Cafe findByName(String name);
 
     void deleteById(Long id);
-//
-//    @Query("select * from cafe where name = (:name)")
-//    public List<String> searchCafeByName(String name);
+
 }

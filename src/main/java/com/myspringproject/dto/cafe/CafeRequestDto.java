@@ -1,4 +1,4 @@
-package com.myspringproject.dto;
+package com.myspringproject.dto.cafe;
 
 import lombok.Data;
 

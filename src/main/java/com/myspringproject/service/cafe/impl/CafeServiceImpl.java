@@ -1,11 +1,12 @@
-package com.myspringproject.service;
+package com.myspringproject.service.cafe.impl;
 
 import com.myspringproject.advice.NoSuchDataException;
-import com.myspringproject.dto.CafeRequestDto;
-import com.myspringproject.dto.CafeResponseDto;
+import com.myspringproject.dto.cafe.CafeRequestDto;
+import com.myspringproject.dto.cafe.CafeResponseDto;
 import com.myspringproject.mapper.CafeMapper;
 import com.myspringproject.model.Cafe;
 import com.myspringproject.repository.CafeRepository;
+import com.myspringproject.service.cafe.CafeService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;

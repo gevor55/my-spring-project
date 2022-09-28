@@ -1,7 +1,7 @@
-package com.myspringproject.service;
+package com.myspringproject.service.cafe;
 
-import com.myspringproject.dto.CafeRequestDto;
-import com.myspringproject.dto.CafeResponseDto;
+import com.myspringproject.dto.cafe.CafeRequestDto;
+import com.myspringproject.dto.cafe.CafeResponseDto;
 
 import java.util.List;
 

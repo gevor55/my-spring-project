@@ -1,8 +1,8 @@
 package com.myspringproject.controller;
 
-import com.myspringproject.dto.CafeRequestDto;
-import com.myspringproject.dto.CafeResponseDto;
-import com.myspringproject.service.CafeService;
+import com.myspringproject.dto.cafe.CafeRequestDto;
+import com.myspringproject.dto.cafe.CafeResponseDto;
+import com.myspringproject.service.cafe.CafeService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
