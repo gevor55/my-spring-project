@@ -20,9 +20,11 @@ import java.util.Optional;
 public class CafeServiceImpl implements CafeService {
 
     private final CafeRepository cafeRepository;
+    private final CafeMapper cafeMapper;
 
-    public CafeServiceImpl(CafeRepository cafeRepository) {
+    public CafeServiceImpl(CafeRepository cafeRepository, CafeMapper cafeMapper) {
         this.cafeRepository = cafeRepository;
+        this.cafeMapper = cafeMapper;
     }
 
 
@@ -31,22 +33,23 @@ public class CafeServiceImpl implements CafeService {
         List<Cafe> cafes = cafeRepository.findAll();
         List<CafeResponseDto> cafeResponseDtos = new ArrayList<>();
         for (Cafe cafe : cafes) {
-            cafeResponseDtos.add(CafeMapper.toResponse(cafe));
+            cafeResponseDtos.add(cafeMapper.toResponse(cafe));
         }
         return cafeResponseDtos;
     }
 
     @Override
     public CafeResponseDto findById(Long id) {
-        Cafe cafe = cafeRepository.findById(id).orElseThrow(null);
-        return CafeMapper.toResponse(cafe);
+        return cafeRepository.findById(id)
+                .map(cafeMapper::toResponse)
+                .orElseThrow(() -> new NoSuchDataException())
     }
 
     @Override
     public CafeResponseDto create(CafeRequestDto dto) {
-        Cafe cafe = CafeMapper.toEntity(dto);
+        Cafe cafe = cafeMapper.toEntity(dto);
         cafeRepository.save(cafe);
-        return CafeMapper.toResponse(cafe);
+        return cafeMapper.toResponse(cafe);
     }
 
     @Override
