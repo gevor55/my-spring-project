@@ -1,4 +1,4 @@
-package com.myspringproject.mapper;
+package com.myspringproject.mapper.employee;
 
 import com.myspringproject.dto.employee.EmployeeRequestDto;
 import com.myspringproject.dto.employee.EmployeeResponseDto;

@@ -3,7 +3,7 @@ package com.myspringproject.service.employee.impl;
 import com.myspringproject.advice.NoSuchDataException;
 import com.myspringproject.dto.employee.EmployeeRequestDto;
 import com.myspringproject.dto.employee.EmployeeResponseDto;
-import com.myspringproject.mapper.EmployeeMapper;
+import com.myspringproject.mapper.employee.EmployeeMapper;
 import com.myspringproject.model.Employee;
 import com.myspringproject.repository.EmployeeRepository;
 import com.myspringproject.service.employee.EmployeeService;
