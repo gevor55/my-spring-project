@@ -13,7 +13,7 @@ public interface EmployeeService {
 
     EmployeeResponseDto create(EmployeeRequestDto employeeRequestDto);
 
-    EmployeeResponseDto updateByFirstName(String name, EmployeeRequestDto employeeRequestDto);
+    EmployeeResponseDto updateByFirstName(String firstName, EmployeeRequestDto employeeRequestDto);
 
     void deleteById(Long id);
 }

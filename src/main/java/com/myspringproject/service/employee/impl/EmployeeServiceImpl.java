@@ -7,11 +7,13 @@ import com.myspringproject.mapper.employee.EmployeeMapper;
 import com.myspringproject.model.Employee;
 import com.myspringproject.repository.EmployeeRepository;
 import com.myspringproject.service.employee.EmployeeService;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
+@Service
+@Log4j2
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
@@ -24,33 +26,32 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<EmployeeResponseDto> findAll() {
-        List<Employee> employees = employeeRepository.findAll();
-        List<EmployeeResponseDto> employeeResponseDtos = new ArrayList<>();
-        for (Employee employee : employees) {
-            employeeResponseDtos.add(EmployeeMapper.toResponse(employee));
-        }
+        return employeeRepository.findAll()
+                .stream()
+                .map(employeeMapper::entityToDto)
+                .toList();
 
-        return employeeResponseDtos;
     }
 
     @Override
     public EmployeeResponseDto findById(Long id) {
-        Employee employee = employeeRepository.findById(id).orElseThrow(null);
-        return EmployeeMapper.toResponse(employee);
+        return employeeRepository.findById(id)
+                .map(employeeMapper::entityToDto)
+                .orElseThrow(() -> new NoSuchDataException("Employeee: " + id + " not found"));
     }
 
     @Override
     public EmployeeResponseDto create(EmployeeRequestDto employeeRequestDto) {
-        Employee employee = EmployeeMapper.toEntity(employeeRequestDto);
+        Employee employee = employeeMapper.dtoToEntity(employeeRequestDto);
         employeeRepository.save(employee);
-        return EmployeeMapper.toResponse(employee);
+        return employeeMapper.entityToDto(employee);
     }
 
     @Override
-    public EmployeeResponseDto updateByFirstName(String name, EmployeeRequestDto employeeRequestDto) {
-        Employee employee = employeeRepository.findByFirstName(name);
+    public EmployeeResponseDto updateByFirstName(String firstName, EmployeeRequestDto employeeRequestDto) {
+        Employee employee = employeeRepository.findByFirstName(firstName);
         if (employee == null) {
-            throw new RuntimeException("no");
+            throw new RuntimeException("Employeee: " + firstName + " not found");
         }
         employee.setFirstName(employeeRequestDto.getFirstName());
         employee.setLastName(employeeRequestDto.getLastName());
@@ -58,15 +59,18 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setBirthday(employee.getBirthday());
         employeeRepository.save(employee);
 
-        return EmployeeMapper.toResponse(employee);
+        return employeeMapper.entityToDto(employee);
     }
 
     @Override
     public void deleteById(Long id) {
-        Optional<Employee> employee = employeeRepository.findById(id);
-        if (employee.isEmpty()) {
-            throw new NoSuchDataException("Not found " + id);
-        }
+        log.trace("Starting delete cafe with id: {}.", id);
+
+        employeeRepository.findById(id)
+                .orElseThrow(() -> new NoSuchDataException("Cafe: " + id + " not found"));
+
+        log.debug("Cafe with id: {} successfully deleted.", id);
+
         employeeRepository.deleteById(id);
     }
 }

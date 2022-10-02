@@ -1,46 +1,46 @@
-//package com.myspringproject.controller;
-//
-//import com.myspringproject.dto.employee.EmployeeResponseDto;
-//import com.myspringproject.model.Employee;
-//import com.myspringproject.repository.EmployeeRepository;
-//import org.springframework.web.bind.annotation.*;
-//
-//import java.util.List;
-//
-//@RestController
-//@RequestMapping("/api")
-//public class EmployeeController {
-//    private final EmployeeRepository employeeRepository;
-//
-//    public EmployeeController(EmployeeRepository employeeRepository) {
-//        this.employeeRepository = employeeRepository;
-//    }
-//
-//
-//    @GetMapping("/employees")
-//    public List<Employee> findAll() {
-//        return employeeRepository.findAll();
-//    }
-//
-//    @GetMapping("/employees/{id}")
-//    public EmployeeResponseDto findById(@PathVariable Long id) {
-//        return employeeRepository.findById(id);
-//    }
-//
-//    @PostMapping("/employees")
-//    public EmployeeResponseDto create(@RequestBody EmployeeResponseDto employeeResponseDto) {
-//        return employeeRepository.save(employeeResponseDto);
-//    }
-//
-//    @PutMapping("/employees/{name}")
-//    public EmployeeResponseDto updateByFirstName(@PathVariable String name, @RequestBody EmployeeResponseDto employeeResponseDto) {
-//        return employeeRepository.save(name, employeeResponseDto);
-//    }
-//
-//    @DeleteMapping("/employees/{id}")
-//    public void deleteById(@PathVariable Long id) {
-//        return employeeRepository.deleteById(id);
-//    }
-//
-//
-//}
+package com.myspringproject.controller;
+
+import com.myspringproject.dto.employee.EmployeeRequestDto;
+import com.myspringproject.dto.employee.EmployeeResponseDto;
+import com.myspringproject.service.employee.EmployeeService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api")
+public class EmployeeController {
+    private final EmployeeService employeeService;
+
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
+
+
+    @GetMapping("/employees")
+    public List<EmployeeResponseDto> findAll() {
+        return employeeService.findAll();
+    }
+
+    @GetMapping("/employees/{id}")
+    public EmployeeResponseDto findById(@PathVariable Long id) {
+        return employeeService.findById(id);
+    }
+
+    @PostMapping("/employees")
+    public EmployeeResponseDto create(@RequestBody EmployeeRequestDto employeeRequestDto) {
+        return employeeService.create(employeeRequestDto);
+    }
+
+    @PutMapping("/employees/{firstName}")
+    public EmployeeResponseDto updateByFirstName(@PathVariable String firstName, @RequestBody EmployeeRequestDto employeeRequestDto) {
+        return employeeService.updateByFirstName(firstName, employeeRequestDto);
+    }
+
+    @DeleteMapping("/employees/{id}")
+    public void deleteById(@PathVariable Long id) {
+        employeeService.deleteById(id);
+    }
+
+
+}
