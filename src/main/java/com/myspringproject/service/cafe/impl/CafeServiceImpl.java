@@ -27,6 +27,7 @@ public class CafeServiceImpl implements CafeService {
 
     @Override
     public List<CafeResponseDto> findAll() {
+
         return cafeRepository.findAll()
                 .stream()
                 .map(cafeMapper::entityToDto)
@@ -35,6 +36,8 @@ public class CafeServiceImpl implements CafeService {
 
     @Override
     public CafeResponseDto findById(Long id) {
+        log.trace("Search cafe with id: {}.", id);
+
         return cafeRepository.findById(id)
                 .map(cafeMapper::entityToDto)
                 .orElseThrow(() -> new NoSuchDataException("Cafe: " + id + " not found"));
@@ -42,20 +45,35 @@ public class CafeServiceImpl implements CafeService {
 
     @Override
     public CafeResponseDto create(CafeRequestDto dto) {
+        log.trace("Starting cafe creating.");
+
         Cafe cafe = cafeMapper.dtoToEntity(dto);
+
         cafeRepository.save(cafe);
+
+        log.debug("Cafe successfully created.");
+
         return cafeMapper.entityToDto(cafe);
     }
 
     @Override
     public CafeResponseDto updateByName(String name, CafeRequestDto dto) {
+        log.trace("Update delete cafe with name: {}.", name);
+
         Cafe cafe = cafeRepository.findByName(name);
+
         if (cafe == null) {
             throw new NoSuchDataException("Cafe: " + name + " not found");
         }
+
         cafe.setName(dto.getName());
+
         cafe.setAddress(dto.getAddress());
+
         cafeRepository.save(cafe);
+
+        log.debug("Cafe with name: {} successfully updated.", name);
+
         return cafeMapper.entityToDto(cafe);
     }
 
