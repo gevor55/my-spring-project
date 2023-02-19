@@ -10,4 +10,5 @@ public class EmployeeResponseDto {
     private String lastName;
     private int age;
     private LocalDateTime birthday;
+    private String cafeName;
 }

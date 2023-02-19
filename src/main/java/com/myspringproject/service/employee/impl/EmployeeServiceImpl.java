@@ -51,7 +51,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeResponseDto updateByFirstName(String firstName, EmployeeRequestDto employeeRequestDto) {
         Employee employee = employeeRepository.findByFirstName(firstName);
         if (employee == null) {
-            throw new RuntimeException("Employeee: " + firstName + " not found");
+            throw new NoSuchDataException("Employeee: " + firstName + " not found");
         }
         employee.setFirstName(employeeRequestDto.getFirstName());
         employee.setLastName(employeeRequestDto.getLastName());

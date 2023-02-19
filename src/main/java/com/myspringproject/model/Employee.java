@@ -23,6 +23,10 @@ public class Employee {
     @Column(name = "birth_day")
     private LocalDateTime birthday;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cafe_id")
+    private Cafe cafe;
+
     public Employee() {
     }
 

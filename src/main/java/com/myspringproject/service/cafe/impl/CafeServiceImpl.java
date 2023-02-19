@@ -70,9 +70,9 @@ public class CafeServiceImpl implements CafeService {
 
         cafe.setAddress(dto.getAddress());
 
-        cafeRepository.save(cafe);
-
         log.debug("Cafe with name: {} successfully updated.", name);
+
+        cafeRepository.save(cafe);
 
         return cafeMapper.entityToDto(cafe);
     }
@@ -82,7 +82,8 @@ public class CafeServiceImpl implements CafeService {
         log.trace("Starting delete cafe with id: {}.", id);
 
         cafeRepository.findById(id)
-                .orElseThrow(() -> new NoSuchDataException("Cafe: " + id + " not found"));
+                .orElseThrow(() ->
+                        new NoSuchDataException("Cafe: " + id + " not found"));
 
         log.debug("Cafe with id: {} successfully deleted.", id);
 
