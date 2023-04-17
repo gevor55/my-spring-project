@@ -11,6 +11,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Log4j2
@@ -45,15 +46,14 @@ public class CafeServiceImpl implements CafeService {
 
     @Override
     public CafeResponseDto create(CafeRequestDto dto) {
-        log.trace("Starting cafe creating.");
-
-        Cafe cafe = cafeMapper.dtoToEntity(dto);
-
-        cafeRepository.save(cafe);
 
         log.debug("Cafe successfully created.");
 
-        return cafeMapper.entityToDto(cafe);
+        return Optional.of(dto)
+                .map(cafeMapper::dtoToEntity)
+                .map(cafeRepository::save)
+                .map(cafeMapper::entityToDto)
+                .orElseThrow();
     }
 
     @Override

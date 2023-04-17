@@ -3,40 +3,41 @@ package com.myspringproject.controller;
 import com.myspringproject.dto.cafe.CafeRequestDto;
 import com.myspringproject.dto.cafe.CafeResponseDto;
 import com.myspringproject.service.cafe.CafeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/cafe")
+@RequiredArgsConstructor
 public class CafeController {
+
     private final CafeService cafeService;
 
-    public CafeController(CafeService cafeService) {
-        this.cafeService = cafeService;
-    }
 
-    @GetMapping("/cafes")
+    @GetMapping()
     public List<CafeResponseDto> findAll() {
         return cafeService.findAll();
     }
 
-    @GetMapping("/cafes/{id}")
+    @GetMapping("/{id}")
     public CafeResponseDto findById(@PathVariable long id) {
         return cafeService.findById(id);
     }
 
-    @PostMapping("/cafes")
+    @PostMapping()
     public CafeResponseDto create(@RequestBody CafeRequestDto cafeDto) {
         return cafeService.create(cafeDto);
     }
 
-    @PutMapping("/cafes/{name}")
-    public CafeResponseDto updateByName(@PathVariable String name, @RequestBody CafeRequestDto cafe) {
+    @PutMapping("/{name}")
+    public CafeResponseDto updateByName(@PathVariable String name, @RequestBody @Valid CafeRequestDto cafe) {
         return cafeService.updateByName(name, cafe);
     }
 
-    @DeleteMapping("/cafes/{id}")
+    @DeleteMapping("/{id}")
     public void deleteById(@PathVariable long id) {
         cafeService.deleteById(id);
     }

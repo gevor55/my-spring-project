@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -19,8 +18,8 @@ public class Cafe {
     @Column(name = "address")
     private String address;
 
-    @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
-    private Set<Employee> employees;
+//    @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
+//    private Set<Employee> employees;
 
     public Cafe() {
     }

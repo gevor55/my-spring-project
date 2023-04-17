@@ -2,13 +2,14 @@ spring:
   main:
     banner-mode: off
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://localhost:5433/postgres
     username: postgres
-    password: Ahmtp123
+    password: mysecretpassword
     driver-class-name: org.postgresql.Driver
   jpa:
     properties:
       hibernate:
+        show_sql: true
         format_sql: true
-    database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate
