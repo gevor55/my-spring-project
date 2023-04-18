@@ -12,14 +12,11 @@ public class Cafe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private Integer id;
     @Column(name = "name")
     private String name;
     @Column(name = "address")
     private String address;
-
-//    @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
-//    private Set<Employee> employees;
 
     public Cafe() {
     }

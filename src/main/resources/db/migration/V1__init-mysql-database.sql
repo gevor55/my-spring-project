@@ -1,10 +1,10 @@
-create table cafe
+CREATE TABLE cafe
 (
-    id      serial  not null primary key,
-    name    varchar not null,
-    address varchar not null
+    id      SERIAL PRIMARY KEY,
+    name    VARCHAR(255)        NOT NULL,
+    address VARCHAR(255) unique NOT NULL
 );
 
-insert into cafe(id, name, address)
-values (1, 'The Garden', 'Mashtoc'),
-       (2, 'Sorriso', 'North Avenue');
+insert into cafe(name, address)
+values ('The Garden', 'Mashtoc'),
+       ('Sorriso', 'North Avenue');

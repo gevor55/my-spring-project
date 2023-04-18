@@ -28,12 +28,12 @@ public class CafeController {
     }
 
     @PostMapping()
-    public CafeResponseDto create(@RequestBody CafeRequestDto cafeDto) {
+    public CafeResponseDto create(@Valid @RequestBody CafeRequestDto cafeDto) {
         return cafeService.create(cafeDto);
     }
 
     @PutMapping("/{name}")
-    public CafeResponseDto updateByName(@PathVariable String name, @RequestBody @Valid CafeRequestDto cafe) {
+    public CafeResponseDto updateByName(@PathVariable String name, @Valid @RequestBody CafeRequestDto cafe) {
         return cafeService.updateByName(name, cafe);
     }
 
