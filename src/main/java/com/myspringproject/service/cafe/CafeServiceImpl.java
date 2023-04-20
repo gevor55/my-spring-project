@@ -1,12 +1,11 @@
-package com.myspringproject.service.cafe.impl;
+package com.myspringproject.service.cafe;
 
-import com.myspringproject.advice.NoSuchDataException;
+import com.myspringproject.advice.NotFoundException;
 import com.myspringproject.dto.cafe.CafeRequestDto;
 import com.myspringproject.dto.cafe.CafeResponseDto;
 import com.myspringproject.mapper.cafe.CafeMapper;
 import com.myspringproject.model.Cafe;
 import com.myspringproject.repository.CafeRepository;
-import com.myspringproject.service.cafe.CafeService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
@@ -36,18 +35,20 @@ public class CafeServiceImpl implements CafeService {
     }
 
     @Override
-    public CafeResponseDto findById(Long id) {
+    public Optional<CafeResponseDto> findById(Long id) {
         log.trace("Search cafe with id: {}.", id);
 
-        return cafeRepository.findById(id)
+        return Optional.ofNullable(cafeRepository.findById(id)
                 .map(cafeMapper::entityToDto)
-                .orElseThrow(() -> new NoSuchDataException("Cafe: " + id + " not found"));
+                .orElseThrow(() -> new NotFoundException("Cafe: " + id + " not found")));
     }
 
     @Override
     public CafeResponseDto create(CafeRequestDto dto) {
 
         log.debug("Cafe successfully created.");
+
+        //TODO add logic findByAddress and say buy
 
         return Optional.of(dto)
                 .map(cafeMapper::dtoToEntity)
@@ -60,10 +61,12 @@ public class CafeServiceImpl implements CafeService {
     public CafeResponseDto updateByName(String name, CafeRequestDto dto) {
         log.trace("Update delete cafe with name: {}.", name);
 
+        //TODO add logic findByAddress and say buy
+
         Cafe cafe = cafeRepository.findByName(name);
 
         if (cafe == null) {
-            throw new NoSuchDataException("Cafe: " + name + " not found");
+            throw new NotFoundException("Cafe: " + name + " not found");
         }
 
         cafe.setName(dto.getName());
@@ -83,7 +86,7 @@ public class CafeServiceImpl implements CafeService {
 
         cafeRepository.findById(id)
                 .orElseThrow(() ->
-                        new NoSuchDataException("Cafe: " + id + " not found"));
+                        new NotFoundException("Cafe: " + id + " not found"));
 
         log.debug("Cafe with id: {} successfully deleted.", id);
 

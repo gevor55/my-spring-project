@@ -4,13 +4,15 @@ import com.myspringproject.dto.cafe.CafeRequestDto;
 import com.myspringproject.dto.cafe.CafeResponseDto;
 import com.myspringproject.service.cafe.CafeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/cafe")
+@RequestMapping("/api/cafes")
 @RequiredArgsConstructor
 public class CafeController {
 
@@ -23,7 +25,7 @@ public class CafeController {
     }
 
     @GetMapping("/{id}")
-    public CafeResponseDto findById(@PathVariable long id) {
+    public Optional<CafeResponseDto> findById(@PathVariable("id") Long id) {
         return cafeService.findById(id);
     }
 
@@ -38,7 +40,8 @@ public class CafeController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable long id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteById(@PathVariable("id") long id) {
         cafeService.deleteById(id);
     }
 

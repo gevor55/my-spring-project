@@ -26,8 +26,8 @@ public class GlobalControllerAdvice {
     }
 
 
-    @ExceptionHandler(NoSuchDataException.class)
-    public ResponseEntity<ApiError> methodArgumentNotValid(final NoSuchDataException exception) {
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ApiError> methodArgumentNotValid(final NotFoundException exception) {
         final ApiError apiError = ApiError.builder()
                 .message("Required some parameter(s): " + exception.getMessage())
                 .code(HttpStatus.BAD_REQUEST.value())

@@ -1,6 +1,6 @@
 CREATE TABLE cafe
 (
-    id      SERIAL PRIMARY KEY,
+    id      BIGSERIAL PRIMARY KEY,
     name    VARCHAR(255)        NOT NULL,
     address VARCHAR(255) unique NOT NULL
 );

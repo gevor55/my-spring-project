@@ -19,6 +19,7 @@ public class CafeMapper {
         cafe.setAddress(dto.getAddress());
 
         return cafe;
+
     }
 
     public CafeResponseDto entityToDto(Cafe cafe) {

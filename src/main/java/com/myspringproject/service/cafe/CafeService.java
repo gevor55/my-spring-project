@@ -4,12 +4,13 @@ import com.myspringproject.dto.cafe.CafeRequestDto;
 import com.myspringproject.dto.cafe.CafeResponseDto;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CafeService {
 
     List<CafeResponseDto> findAll();
 
-    CafeResponseDto findById(Long id);
+    Optional<CafeResponseDto> findById(Long id);
 
     CafeResponseDto create(CafeRequestDto dto);
 
