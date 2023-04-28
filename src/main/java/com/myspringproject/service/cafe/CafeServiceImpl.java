@@ -6,6 +6,8 @@ import com.myspringproject.dto.cafe.CafeResponseDto;
 import com.myspringproject.mapper.cafe.CafeMapper;
 import com.myspringproject.model.Cafe;
 import com.myspringproject.repository.CafeRepository;
+import com.myspringproject.validation.CafeValidatorService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
@@ -14,15 +16,13 @@ import java.util.Optional;
 
 @Service
 @Log4j2
+@RequiredArgsConstructor
 public class CafeServiceImpl implements CafeService {
 
     private final CafeRepository cafeRepository;
     private final CafeMapper cafeMapper;
+    private final CafeValidatorService cafeValidatorService;
 
-    public CafeServiceImpl(CafeRepository cafeRepository, CafeMapper cafeMapper) {
-        this.cafeRepository = cafeRepository;
-        this.cafeMapper = cafeMapper;
-    }
 
 
     @Override
@@ -48,7 +48,7 @@ public class CafeServiceImpl implements CafeService {
 
         log.debug("Cafe successfully created.");
 
-        //TODO add logic findByAddress and say buy
+        cafeValidatorService.checkAddress(dto.getAddress());
 
         return Optional.of(dto)
                 .map(cafeMapper::dtoToEntity)
@@ -61,7 +61,7 @@ public class CafeServiceImpl implements CafeService {
     public CafeResponseDto updateByName(String name, CafeRequestDto dto) {
         log.trace("Update delete cafe with name: {}.", name);
 
-        //TODO add logic findByAddress and say buy
+        cafeValidatorService.checkAddress(dto.getAddress());
 
         Cafe cafe = cafeRepository.findByName(name);
 
@@ -84,12 +84,12 @@ public class CafeServiceImpl implements CafeService {
     public void deleteById(Long id) {
         log.trace("Starting delete cafe with id: {}.", id);
 
-        cafeRepository.findById(id)
+        Cafe cafe = cafeRepository.findById(id)
                 .orElseThrow(() ->
                         new NotFoundException("Cafe: " + id + " not found"));
 
         log.debug("Cafe with id: {} successfully deleted.", id);
 
-        cafeRepository.deleteById(id);
+        cafeRepository.deleteById(cafe.getId());
     }
 }

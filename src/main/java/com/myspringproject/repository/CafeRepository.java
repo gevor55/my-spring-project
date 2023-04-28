@@ -8,4 +8,6 @@ public interface CafeRepository extends JpaRepository<Cafe, Long> {
 
     void deleteById(Long id);
 
+    boolean existsByAddress(String address);
+
 }

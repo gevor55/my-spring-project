@@ -40,15 +40,14 @@ class CafeServiceImplTest {
     @Test
     void create() {
 
-        CafeRequestDto cafeRequestDto = new CafeRequestDto(
+
+        CafeResponseDto dto = cafeService.create(new CafeRequestDto(
                 "Pizza",
                 "Yerevan"
-        );
+        ));
 
-        CafeResponseDto cafeResponseDto = cafeService.create(cafeRequestDto);
-
-        assertEquals(cafeRequestDto.getName(), cafeResponseDto.getName());
-        assertEquals(cafeRequestDto.getAddress(), cafeResponseDto.getAddress());
+        assertEquals("Pizza", dto.getName());
+        assertEquals("Yerevan", dto.getAddress());
 
 
     }
@@ -67,8 +66,13 @@ class CafeServiceImplTest {
         assertEquals("b", updateDto.getAddress());
     }
 
-//
-//    @Test
-//    void deleteById() {
-//    }
+
+    @Test
+    void deleteById() {
+
+        Optional<CafeResponseDto> maybe = cafeService.findById(1L);
+        assertTrue(maybe.isPresent());
+
+        cafeService.deleteById(1L);
+    }
 }

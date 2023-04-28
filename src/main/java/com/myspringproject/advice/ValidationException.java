@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 public class ValidationException extends RuntimeException {
+
     private final transient Collection<Error> errors;
 
     public ValidationException(Collection<Error> e) {
