@@ -1,6 +1,6 @@
 package com.myspringproject.jdbc;
 
-import com.myspringproject.model.Cafe;
+import com.myspringproject.entities.Cafe;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

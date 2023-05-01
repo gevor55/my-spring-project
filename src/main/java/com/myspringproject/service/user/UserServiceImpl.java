@@ -5,6 +5,7 @@ import com.myspringproject.dto.user.UserRequestDto;
 import com.myspringproject.dto.user.UserResponseDto;
 import com.myspringproject.mapper.user.UserMapper;
 import com.myspringproject.repository.UserRepository;
+import com.myspringproject.validation.UserValidatitorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final UserValidatitorService userValidator;
 
 
     @Override
@@ -42,7 +44,7 @@ public class UserServiceImpl implements UserService {
 
         log.debug("Cafe successfully created.");
 
-        //TODO add logic findByusername and say buy
+        userValidator.existsByUsername(dto.getUsername());
 
         return Optional.of(dto)
                 .map(userMapper::dtoToEntity)

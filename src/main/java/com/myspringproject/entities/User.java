@@ -1,4 +1,4 @@
-package com.myspringproject.model;
+package com.myspringproject.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

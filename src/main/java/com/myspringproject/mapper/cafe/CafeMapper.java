@@ -3,7 +3,7 @@ package com.myspringproject.mapper.cafe;
 
 import com.myspringproject.dto.cafe.CafeRequestDto;
 import com.myspringproject.dto.cafe.CafeResponseDto;
-import com.myspringproject.model.Cafe;
+import com.myspringproject.entities.Cafe;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;

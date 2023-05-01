@@ -37,4 +37,18 @@ public class GlobalControllerAdvice {
         return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
     }
 
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiError> methodArgumentNotValid(final IllegalArgumentException exception) {
+        final ApiError apiError = ApiError.builder()
+                .message(exception.getMessage())
+                .code(HttpStatus.BAD_REQUEST.value())
+                .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
+                .timestamp(LocalDateTime.now())
+                .build();
+        log.trace(exception.getMessage());
+        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+    }
+
+
 }

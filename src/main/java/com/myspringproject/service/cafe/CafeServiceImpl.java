@@ -3,8 +3,8 @@ package com.myspringproject.service.cafe;
 import com.myspringproject.advice.NotFoundException;
 import com.myspringproject.dto.cafe.CafeRequestDto;
 import com.myspringproject.dto.cafe.CafeResponseDto;
+import com.myspringproject.entities.Cafe;
 import com.myspringproject.mapper.cafe.CafeMapper;
-import com.myspringproject.model.Cafe;
 import com.myspringproject.repository.CafeRepository;
 import com.myspringproject.validation.CafeValidatorService;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Log4j2
@@ -91,5 +92,23 @@ public class CafeServiceImpl implements CafeService {
         log.debug("Cafe with id: {} successfully deleted.", id);
 
         cafeRepository.deleteById(cafe.getId());
+    }
+
+    @Override
+    public List<CafeResponseDto> search(String name, String address) {
+        List<Cafe> cafes = cafeRepository.find(name, address);
+
+        if (cafes.isEmpty()) {
+            log.debug("Cafe with name: {} not found.", name);
+            throw new NotFoundException("Cafe with name: " + name + " not found");
+        }
+
+        return cafes.stream()
+                .map(cafe -> {
+                    CafeResponseDto dto = new CafeResponseDto();
+                    dto.setName(cafe.getName());
+                    dto.setAddress(cafe.getAddress());
+                    return dto;
+                }).collect(Collectors.toList());
     }
 }

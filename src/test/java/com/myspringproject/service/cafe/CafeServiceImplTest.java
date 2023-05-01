@@ -5,7 +5,10 @@ import com.myspringproject.dto.cafe.CafeResponseDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +17,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
+@TestPropertySource(locations = "classpath:application-test.yml")
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Transactional
 class CafeServiceImplTest {
 
     @Autowired
@@ -58,12 +64,12 @@ class CafeServiceImplTest {
 
         CafeResponseDto updateDto = cafeService.updateByName("The Garden",
                 new CafeRequestDto(
-                        "b",
-                        "b"
+                        "new",
+                        "new"
                 ));
 
-        assertEquals("b", updateDto.getName());
-        assertEquals("b", updateDto.getAddress());
+        assertEquals("new", updateDto.getName());
+        assertEquals("new", updateDto.getAddress());
     }
 
 

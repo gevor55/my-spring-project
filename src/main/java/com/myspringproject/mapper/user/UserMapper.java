@@ -2,7 +2,7 @@ package com.myspringproject.mapper.user;
 
 import com.myspringproject.dto.user.UserRequestDto;
 import com.myspringproject.dto.user.UserResponseDto;
-import com.myspringproject.model.User;
+import com.myspringproject.entities.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;

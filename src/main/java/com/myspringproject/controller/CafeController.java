@@ -19,6 +19,13 @@ public class CafeController {
     private final CafeService cafeService;
 
 
+//    @GetMapping()
+//    public String findAll(Model model) {
+//        List<CafeResponseDto> cafes = cafeService.findAll();
+//        model.addAttribute("cafes", cafes);
+//        return "cafes";
+//    }
+
     @GetMapping()
     public List<CafeResponseDto> findAll() {
         return cafeService.findAll();
@@ -43,6 +50,14 @@ public class CafeController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable("id") long id) {
         cafeService.deleteById(id);
+    }
+
+
+    @GetMapping("/search")
+    public List<CafeResponseDto> search(@RequestParam(required = false) String cafeName,
+                                        @RequestParam(required = false) String cafeAddress) {
+
+        return cafeService.search(cafeName, cafeAddress);
     }
 
 }

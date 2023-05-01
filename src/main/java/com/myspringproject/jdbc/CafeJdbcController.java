@@ -1,6 +1,6 @@
 package com.myspringproject.jdbc;
 
-import com.myspringproject.model.Cafe;
+import com.myspringproject.entities.Cafe;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
