@@ -4,6 +4,7 @@ import com.myspringproject.dto.cafe.CafeRequestDto;
 import com.myspringproject.dto.cafe.CafeResponseDto;
 import com.myspringproject.service.cafe.CafeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,7 +43,7 @@ public class CafeController {
     }
 
     @PutMapping("/{name}")
-    public CafeResponseDto updateByName(@PathVariable String name, @Valid @RequestBody CafeRequestDto cafe) {
+    public CafeResponseDto updateByName(@PathVariable("name") String name, @Valid @RequestBody CafeRequestDto cafe) {
         return cafeService.updateByName(name, cafe);
     }
 
@@ -54,10 +55,12 @@ public class CafeController {
 
 
     @GetMapping("/search")
-    public List<CafeResponseDto> search(@RequestParam(required = false) String cafeName,
-                                        @RequestParam(required = false) String cafeAddress) {
+    public Page<CafeResponseDto> search(@RequestParam(required = false) String cafeName,
+                                        @RequestParam(required = false) String cafeAddress,
+                                        @RequestParam(required = false) Integer pageNumber,
+                                        @RequestParam(required = false) Integer pageSize) {
 
-        return cafeService.search(cafeName, cafeAddress);
+        return cafeService.search(cafeName, cafeAddress, pageNumber, pageSize);
     }
 
 }

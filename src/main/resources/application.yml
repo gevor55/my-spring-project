@@ -4,7 +4,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5433/postgres
     username: postgres
-    password: postgres
+    password: mysecretpassword
     driver-class-name: org.postgresql.Driver
   jpa:
     properties:
@@ -13,5 +13,3 @@ spring:
         format_sql: true
     hibernate:
       ddl-auto: validate
-server:
-  port: 5555
