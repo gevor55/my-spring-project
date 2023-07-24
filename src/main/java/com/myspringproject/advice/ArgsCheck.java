@@ -3,7 +3,7 @@ package com.myspringproject.advice;
 public class ArgsCheck {
 
     private ArgsCheck() {
-        throw new AssertionError("aaaaaaaaa");
+        throw new AssertionError("");
     }
 
     public static <T> T notNull(final T argument, final String name) {

@@ -10,9 +10,4 @@ public class MySpringProjectApplication {
         SpringApplication.run(MySpringProjectApplication.class, args);
     }
 
-    // TODO
-    // 1 - change birhdate format
-    // 2 - data.sql
-    // search erb address sxala eli beruma data
-
 }

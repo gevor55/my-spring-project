@@ -2,7 +2,6 @@ package com.myspringproject.service.cafe;
 
 import com.myspringproject.dto.cafe.CafeRequestDto;
 import com.myspringproject.dto.cafe.CafeResponseDto;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,5 +18,4 @@ public interface CafeService {
 
     void deleteById(Long id);
 
-    Page<CafeResponseDto> search(String name, String address, Integer pageNumber, Integer pageSize);
 }

@@ -15,16 +15,6 @@ public class CafeValidatorService {
 
         boolean existsByAddress = cafeRepository.existsByAddress(address);
 
-//        if (existsByAddress) {
-//            throw new ValidationException(
-//                    Error.builder()
-//                            .field("address")
-//                            .code("address.duplicated")
-//                            .defaultMessage("This address has benn registered. Please choose another one.")
-//                            .build()
-//            );
-//        }
-
         if (existsByAddress) {
             throw new IllegalArgumentException("This address has benn registered. Please choose another one.");
         }
