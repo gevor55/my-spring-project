@@ -7,8 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    void deleteById(Long id);
-
     @Query(value = "SELECT COUNT(*) > 0 FROM users WHERE username = ?", nativeQuery = true)
     boolean findByUsername(String username);
 }

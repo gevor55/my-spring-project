@@ -14,4 +14,6 @@ public class UserResponseDto {
     private String lastName;
 
     private LocalDateTime birthDate;
+
+    private UserStatus userStatus;
 }

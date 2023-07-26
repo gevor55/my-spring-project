@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Log4j2
@@ -23,8 +22,6 @@ public class CafeServiceImpl implements CafeService {
     private final CafeRepository cafeRepository;
     private final CafeMapper cafeMapper;
     private final CafeValidatorService cafeValidatorService;
-
-
 
     @Override
     public List<CafeResponseDto> findAll() {
@@ -47,7 +44,7 @@ public class CafeServiceImpl implements CafeService {
     @Override
     public CafeResponseDto create(CafeRequestDto dto) {
 
-        log.debug("Cafe successfully created.");
+        log.trace("Cafe successfully created.");
 
         cafeValidatorService.checkAddress(dto.getAddress());
 
@@ -83,6 +80,8 @@ public class CafeServiceImpl implements CafeService {
 
     @Override
     public void deleteById(Long id) {
+
+        //TODO Delete this method because its not actual
         log.trace("Starting delete cafe with id: {}.", id);
 
         Cafe cafe = cafeRepository.findById(id)
@@ -93,4 +92,17 @@ public class CafeServiceImpl implements CafeService {
 
         cafeRepository.deleteById(cafe.getId());
     }
+
+    @Override
+    public List<CafeResponseDto> search(String name, String address) {
+
+
+        return cafeRepository.findAllByNameOrAddress(name, address)
+                .stream()
+                .map(cafeMapper::entityToDto)
+                .toList();
+
+
+    }
+
 }

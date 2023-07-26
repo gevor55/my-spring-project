@@ -24,4 +24,7 @@ public class UserRequestDto {
 
     @NotNull(message = "Mandatory field")
     private LocalDateTime birthDate;
+
+    @NotNull(message = "Mandatory field")
+    private UserStatus userStatus;
 }

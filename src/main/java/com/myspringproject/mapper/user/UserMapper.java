@@ -19,6 +19,7 @@ public class UserMapper {
         user.setFirstName(dto.getFirstName());
         user.setLastName(dto.getLastName());
         user.setBirthdate(dto.getBirthDate());
+        user.setUserStatus(dto.getUserStatus());
 
         return user;
     }
@@ -29,6 +30,7 @@ public class UserMapper {
         dto.setFirstName(user.getFirstName());
         dto.setLastName(user.getLastName());
         dto.setBirthDate(user.getBirthdate());
+        dto.setUserStatus(user.getUserStatus());
 
         return dto;
     }

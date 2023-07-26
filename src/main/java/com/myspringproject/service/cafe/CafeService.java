@@ -18,4 +18,5 @@ public interface CafeService {
 
     void deleteById(Long id);
 
+    List<CafeResponseDto> search(String name, String address);
 }

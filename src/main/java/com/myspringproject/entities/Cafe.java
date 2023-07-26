@@ -1,17 +1,16 @@
 package com.myspringproject.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Getter
+@Setter
 public class Cafe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,5 +22,8 @@ public class Cafe {
 
     @Column(name = "address")
     private String address;
+
+    @OneToMany(mappedBy = "cafe")
+    private List<User> users;
 
 }
