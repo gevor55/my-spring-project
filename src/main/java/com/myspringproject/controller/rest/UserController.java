@@ -1,8 +1,9 @@
-package com.myspringproject.controller;
+package com.myspringproject.controller.rest;
 
 
-import com.myspringproject.dto.user.UserRequestDto;
+import com.myspringproject.dto.user.UserCreationDto;
 import com.myspringproject.dto.user.UserResponseDto;
+import com.myspringproject.dto.user.UserUpdateDto;
 import com.myspringproject.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,8 +31,13 @@ public class UserController {
     }
 
     @PostMapping()
-    public UserResponseDto create(@Valid @RequestBody UserRequestDto userDto) {
+    public UserResponseDto create(@Valid @RequestBody UserCreationDto userDto) {
         return userService.create(userDto);
+    }
+
+    @PutMapping("/{id}")
+    public Optional<UserResponseDto> update(@PathVariable("id") Long id, @Valid @RequestBody UserUpdateDto user) {
+        return userService.update(id, user);
     }
 
     @DeleteMapping("/{id}")

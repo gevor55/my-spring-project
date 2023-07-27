@@ -12,8 +12,8 @@ create table users
     username   VARCHAR(255) NOT NULL,
     first_name VARCHAR(255) NOT NULL,
     last_name  VARCHAR(255) NOT NULL,
-    birth_date TIMESTAMP    NOT NULL default CURRENT_TIMESTAMP,
+    birth_date date         NOT NULL,
     status     VARCHAR      NOT NULL,
+    role       VARCHAR      NOT NULL,
     cafe_id    BIGINT REFERENCES cafe (id)
-
 );

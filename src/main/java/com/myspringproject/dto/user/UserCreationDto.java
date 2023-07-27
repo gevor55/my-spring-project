@@ -6,12 +6,12 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserRequestDto {
+public class UserCreationDto {
 
     @NotEmpty(message = "Mandatory field")
     private String username;
@@ -23,8 +23,11 @@ public class UserRequestDto {
     private String lastName;
 
     @NotNull(message = "Mandatory field")
-    private LocalDateTime birthDate;
+    private LocalDate birthDate;
 
     @NotNull(message = "Mandatory field")
     private UserStatus userStatus;
+
+    @NotNull(message = "Mandatory field")
+    private Role role;
 }

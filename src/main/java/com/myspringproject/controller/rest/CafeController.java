@@ -1,4 +1,4 @@
-package com.myspringproject.controller;
+package com.myspringproject.controller.rest;
 
 import com.myspringproject.dto.cafe.CafeRequestDto;
 import com.myspringproject.dto.cafe.CafeResponseDto;

@@ -38,7 +38,7 @@ public class CafeServiceImpl implements CafeService {
 
         return Optional.ofNullable(cafeRepository.findById(id)
                 .map(cafeMapper::entityToDto)
-                .orElseThrow(() -> new NotFoundException("Cafe: " + id + " not found")));
+                .orElseThrow(() -> new NotFoundException("Cafe with id: " + id + " not found")));
     }
 
     @Override
@@ -57,15 +57,15 @@ public class CafeServiceImpl implements CafeService {
 
     @Override
     public CafeResponseDto updateByName(String name, CafeRequestDto dto) {
-        log.trace("Update delete cafe with name: {}.", name);
-
-        cafeValidatorService.checkAddress(dto.getAddress());
+        log.trace("Update cafe with name: {}.", name);
 
         Cafe cafe = cafeRepository.findByName(name);
 
         if (cafe == null) {
-            throw new NotFoundException("Cafe: " + name + " not found");
+            throw new NotFoundException("Cafe with name: " + name + " not found");
         }
+
+        cafeValidatorService.checkAddress(dto.getAddress());
 
         cafe.setName(dto.getName());
 
@@ -81,7 +81,7 @@ public class CafeServiceImpl implements CafeService {
     @Override
     public void deleteById(Long id) {
 
-        //TODO Delete this method because its not actual
+        //TODO Delete this method because it is not actual
         log.trace("Starting delete cafe with id: {}.", id);
 
         Cafe cafe = cafeRepository.findById(id)

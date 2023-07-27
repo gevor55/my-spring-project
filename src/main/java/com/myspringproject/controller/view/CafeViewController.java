@@ -1,4 +1,4 @@
-package com.myspringproject.controller;
+package com.myspringproject.controller.view;
 
 import com.myspringproject.dto.cafe.CafeResponseDto;
 import com.myspringproject.service.cafe.CafeService;
@@ -13,7 +13,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/cafes")
 @RequiredArgsConstructor
-public class ViewController {
+public class CafeViewController {
 
     private final CafeService cafeService;
 

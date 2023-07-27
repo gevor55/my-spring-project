@@ -3,15 +3,15 @@ package com.myspringproject.advice;
 import java.util.Collection;
 import java.util.Collections;
 
-public class ValidationException extends RuntimeException {
+public class CustomValidationException extends RuntimeException {
 
     private final transient Collection<Error> errors;
 
-    public ValidationException(Collection<Error> e) {
+    public CustomValidationException(Collection<Error> e) {
         this.errors = e;
     }
 
-    public ValidationException(Error e) {
+    public CustomValidationException(Error e) {
         this.errors = Collections.singleton(e);
     }
 

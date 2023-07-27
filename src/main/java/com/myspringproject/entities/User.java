@@ -1,10 +1,11 @@
 package com.myspringproject.entities;
 
+import com.myspringproject.dto.user.Role;
 import com.myspringproject.dto.user.UserStatus;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "users")
@@ -29,11 +30,15 @@ public class User {
     private String lastName;
 
     @Column(name = "birth_date")
-    private LocalDateTime birthdate;
+    private LocalDate birthdate;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private UserStatus userStatus;
+
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cafe_id")
