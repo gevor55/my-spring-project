@@ -1,34 +1,38 @@
 package com.myspringproject.service.user;
 
 import com.myspringproject.advice.NotFoundException;
-import com.myspringproject.dto.user.UserCreationDto;
-import com.myspringproject.dto.user.UserResponseDto;
-import com.myspringproject.dto.user.UserStatus;
-import com.myspringproject.dto.user.UserUpdateDto;
+import com.myspringproject.dto.user.*;
 import com.myspringproject.entities.User;
 import com.myspringproject.mapper.user.UserMapper;
 import com.myspringproject.repository.UserRepository;
-import com.myspringproject.validation.UserValidatitorService;
+import com.myspringproject.validation.UserValidatorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.validation.ValidationException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @Log4j2
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    private final UserValidatitorService userValidator;
+    private final UserValidatorService userValidator;
+    private final PasswordEncoder passwordEncoder;
 
 
     @Override
-    public List<UserResponseDto> findAll() {
-        return userRepository.findAll()
+    public List<UserResponseDto> findAllActiveUsers() {
+        return userRepository.findAllByUserStatus(UserStatus.ACTIVE)
                 .stream()
                 .map(userMapper::entityToDto)
                 .toList();
@@ -36,7 +40,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<UserResponseDto> findById(Long id) {
-        log.trace("Search user with id: {}.", id);
+        log.info("Search user with id: {}.", id);
 
         return Optional.ofNullable(userRepository.findById(id)
                 .map(userMapper::entityToDto)
@@ -45,11 +49,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto create(UserCreationDto dto) {
-        log.trace("Starting create user ");
+        log.info("Starting create user ");
 
         userValidator.existsByUsername(dto.getUsername());
 
-        log.trace("User successfully created");
+        log.info("User successfully created");
 
         return Optional.of(dto)
                 .map(userMapper::dtoToEntity)
@@ -61,14 +65,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<UserResponseDto> update(Long id, UserUpdateDto userDto) {
 
-        log.trace("Starting update user with id: {}", id);
+        log.info("Starting update user with id: {}", id);
 
-        Optional<User> optionalUser = Optional.ofNullable(userRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("User with id: " + id + " not found")));
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("User with id: " + id + " not found"));
 
         userValidator.existsByUsername(userDto.getUsername());
-
-        User user = optionalUser.get();
 
         user.setUsername(userDto.getUsername());
         user.setFirstName(userDto.getFirstName());
@@ -82,8 +84,31 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void changePassword(Long id, ChangePasswordDto command) {
+        log.info("Starting changing user password with id: {}", id);
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("User with id: " + id + " not found"));
+
+
+        String currentPassword = user.getPassword();
+
+        boolean isMatches = passwordEncoder.matches(command.getNewPassword(), currentPassword);
+
+        if (isMatches) {
+            throw new ValidationException("The new password is the same as the current password.");
+        }
+
+        user.setPassword(passwordEncoder.encode(command.getNewPassword()));
+
+        log.info("Password successfully changed");
+
+        userRepository.save(user);
+    }
+
+    @Override
     public void deleteById(Long id) {
-        log.trace("Starting delete user with id: {}.", id);
+        log.info("Starting delete user with id: {}.", id);
 
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("User with id: " + id + " not found"));
@@ -94,5 +119,16 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
 
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByUsername(username)
+                .map(user -> new org.springframework.security.core.userdetails.User(
+                        user.getUsername(),
+                        user.getPassword(),
+                        Collections.singleton(user.getRole())
+                ))
+                .orElseThrow(() -> new UsernameNotFoundException("Failed to retrieve user: " + username));
     }
 }

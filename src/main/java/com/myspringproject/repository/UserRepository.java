@@ -1,12 +1,16 @@
 package com.myspringproject.repository;
 
 
+import com.myspringproject.dto.user.UserStatus;
 import com.myspringproject.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
+import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    @Query(value = "SELECT COUNT(*) > 0 FROM users WHERE username = ?", nativeQuery = true)
-    boolean findByUsername(String username);
+    Optional<User> findByUsername(String username);
+
+    List<User> findAllByUserStatus(UserStatus userStatus);
 }

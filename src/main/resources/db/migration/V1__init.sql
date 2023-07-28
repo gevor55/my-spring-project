@@ -14,6 +14,7 @@ create table users
     last_name  VARCHAR(255) NOT NULL,
     birth_date date         NOT NULL,
     status     VARCHAR      NOT NULL,
+    password   VARCHAR(128) NOT NULL,
     role       VARCHAR      NOT NULL,
     cafe_id    BIGINT REFERENCES cafe (id)
 );

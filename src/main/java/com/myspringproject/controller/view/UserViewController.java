@@ -22,7 +22,7 @@ public class UserViewController {
     @GetMapping
     public String findAll(Model model) {
 
-        List<UserResponseDto> users = userService.findAll();
+        List<UserResponseDto> users = userService.findAllActiveUsers();
 
         model.addAttribute("users", users);
 

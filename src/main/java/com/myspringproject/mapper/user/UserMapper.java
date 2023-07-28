@@ -4,13 +4,14 @@ import com.myspringproject.dto.user.UserCreationDto;
 import com.myspringproject.dto.user.UserResponseDto;
 import com.myspringproject.entities.User;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 @Data
-@NoArgsConstructor
 public class UserMapper {
+
+    private final PasswordEncoder passwordEncoder;
 
 
     public User dtoToEntity(UserCreationDto dto) {
@@ -21,6 +22,7 @@ public class UserMapper {
         user.setBirthdate(dto.getBirthDate());
         user.setUserStatus(dto.getUserStatus());
         user.setRole(dto.getRole());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
 
         return user;
     }

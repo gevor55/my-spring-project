@@ -1,5 +1,6 @@
 package com.myspringproject.service.user;
 
+import com.myspringproject.dto.user.ChangePasswordDto;
 import com.myspringproject.dto.user.UserCreationDto;
 import com.myspringproject.dto.user.UserResponseDto;
 import com.myspringproject.dto.user.UserUpdateDto;
@@ -9,7 +10,7 @@ import java.util.Optional;
 
 public interface UserService {
 
-    List<UserResponseDto> findAll();
+    List<UserResponseDto> findAllActiveUsers();
 
     Optional<UserResponseDto> findById(Long id);
 
@@ -19,4 +20,5 @@ public interface UserService {
 
     Optional<UserResponseDto> update(Long id, UserUpdateDto userDto);
 
+    void changePassword(Long id, ChangePasswordDto changePasswordDto);
 }
