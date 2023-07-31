@@ -1,6 +1,6 @@
 package com.myspringproject.mapper.user;
 
-import com.myspringproject.dto.user.UserCreationDto;
+import com.myspringproject.dto.user.UserRegistrationCommand;
 import com.myspringproject.dto.user.UserResponseDto;
 import com.myspringproject.entities.User;
 import lombok.Data;
@@ -14,7 +14,7 @@ public class UserMapper {
     private final PasswordEncoder passwordEncoder;
 
 
-    public User dtoToEntity(UserCreationDto dto) {
+    public User dtoToEntity(UserRegistrationCommand dto) {
         User user = new User();
         user.setUsername(dto.getUsername());
         user.setFirstName(dto.getFirstName());

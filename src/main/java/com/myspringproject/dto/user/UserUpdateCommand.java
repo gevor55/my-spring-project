@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserUpdateDto {
+public class UserUpdateCommand {
 
     @NotEmpty(message = "Mandatory field")
     private String username;
@@ -20,9 +20,6 @@ public class UserUpdateDto {
 
     @NotEmpty(message = "Mandatory field")
     private String lastName;
-
-    @NotNull(message = "Mandatory field")
-    private UserStatus userStatus;
 
     @NotNull(message = "Mandatory field")
     private Role role;

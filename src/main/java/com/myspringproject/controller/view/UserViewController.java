@@ -1,6 +1,6 @@
 package com.myspringproject.controller.view;
 
-import com.myspringproject.dto.user.UserCreationDto;
+import com.myspringproject.dto.user.UserRegistrationCommand;
 import com.myspringproject.dto.user.UserResponseDto;
 import com.myspringproject.service.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -39,9 +39,9 @@ public class UserViewController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public String crate(@ModelAttribute UserCreationDto userCreationDto) {
+    public String crate(@ModelAttribute UserRegistrationCommand userRegistrationCommand) {
 
-        return "redirect:/users/" + userService.create(userCreationDto);
+        return "redirect:/users/" + userService.create(userRegistrationCommand);
     }
 
 //    @PostMapping("/{id}/update")

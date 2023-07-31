@@ -5,9 +5,11 @@ import com.myspringproject.dto.user.*;
 import com.myspringproject.entities.User;
 import com.myspringproject.mapper.user.UserMapper;
 import com.myspringproject.repository.UserRepository;
+import com.myspringproject.specification.user.UserSpecifications;
 import com.myspringproject.validation.UserValidatorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -48,7 +50,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public UserResponseDto create(UserCreationDto dto) {
+    public UserResponseDto create(UserRegistrationCommand dto) {
         log.info("Starting create user ");
 
         userValidator.existsByUsername(dto.getUsername());
@@ -63,7 +65,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public Optional<UserResponseDto> update(Long id, UserUpdateDto userDto) {
+    public Optional<UserResponseDto> update(Long id, UserUpdateCommand userDto) {
 
         log.info("Starting update user with id: {}", id);
 
@@ -75,7 +77,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setUsername(userDto.getUsername());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
-        user.setUserStatus(userDto.getUserStatus());
         user.setRole(userDto.getRole());
 
         userRepository.save(user);
@@ -84,11 +85,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void changePassword(Long id, ChangePasswordDto command) {
+    public void changePassword(Long id, ChangePasswordCommand command) {
+
         log.info("Starting changing user password with id: {}", id);
 
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("User with id: " + id + " not found"));
+        User user = userRepository.findByIdAndUserStatusNot(id, UserStatus.INACTIVE)
+                .orElseThrow(() -> new NotFoundException("User with id: " + id + " not found or status is INACTIVE"));
 
 
         String currentPassword = user.getPassword();
@@ -113,6 +115,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("User with id: " + id + " not found"));
 
+        if (user.getUserStatus().equals(UserStatus.INACTIVE)) {
+            throw new ValidationException("User status already INACTIVE");
+        }
+
         log.debug("User with id: {} successfully deleted.", id);
 
         user.setUserStatus(UserStatus.INACTIVE);
@@ -130,5 +136,24 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                         Collections.singleton(user.getRole())
                 ))
                 .orElseThrow(() -> new UsernameNotFoundException("Failed to retrieve user: " + username));
+    }
+
+
+    @Override
+    public List<UserResponseDto> searchUsers(UserSearchCommand command) {
+
+        log.info("Searching users with command: {} ", command);
+
+        Specification<User> searchSpec = UserSpecifications.findByCriteria(command);
+
+        List<User> users = userRepository.findAll(searchSpec);
+
+        if (users.isEmpty()) {
+            throw new NotFoundException("No users found with the given criteria.");
+        }
+
+        return users.stream()
+                .map(userMapper::entityToDto)
+                .toList();
     }
 }

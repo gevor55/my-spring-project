@@ -9,7 +9,7 @@ import javax.validation.constraints.Pattern;
 
 @Data
 @NoArgsConstructor
-public class ChangePasswordDto {
+public class ChangePasswordCommand {
 
     @NotNull(message = "Mandatory field")
     @Pattern(regexp = PatternConstants.PASSWORD_PATTERN,

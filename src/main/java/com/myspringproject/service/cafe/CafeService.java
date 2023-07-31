@@ -17,6 +17,4 @@ public interface CafeService {
     CafeResponseDto updateByName(String name, CafeRequestDto dto);
 
     void deleteById(Long id);
-
-    List<CafeResponseDto> search(String name, String address);
 }

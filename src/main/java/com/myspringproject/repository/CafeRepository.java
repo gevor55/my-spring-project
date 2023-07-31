@@ -4,10 +4,11 @@ import com.myspringproject.entities.Cafe;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CafeRepository extends JpaRepository<Cafe, Long> {
 
-    Cafe findByName(String name);
+    Optional<Cafe> findByName(String name);
 
     void deleteById(Long id);
 

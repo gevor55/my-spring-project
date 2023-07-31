@@ -44,11 +44,4 @@ public class CafeController {
     public void deleteById(@PathVariable("id") long id) {
         cafeService.deleteById(id);
     }
-
-    @GetMapping("/search")
-    public List<CafeResponseDto> search(@RequestParam(required = false) String name,
-                                        @RequestParam(required = false) String address) {
-
-        return cafeService.search(name, address);
-    }
 }

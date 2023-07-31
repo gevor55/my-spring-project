@@ -59,11 +59,8 @@ public class CafeServiceImpl implements CafeService {
     public CafeResponseDto updateByName(String name, CafeRequestDto dto) {
         log.info("Update cafe with name: {}.", name);
 
-        Cafe cafe = cafeRepository.findByName(name);
-
-        if (cafe == null) {
-            throw new NotFoundException("Cafe with name: " + name + " not found");
-        }
+        Cafe cafe = cafeRepository.findByName(name).orElseThrow(
+                () -> new NotFoundException("Cafe with name: " + name + " not found"));
 
         cafeValidatorService.checkAddress(dto.getAddress());
 
@@ -92,17 +89,4 @@ public class CafeServiceImpl implements CafeService {
 
         cafeRepository.deleteById(cafe.getId());
     }
-
-    @Override
-    public List<CafeResponseDto> search(String name, String address) {
-
-
-        return cafeRepository.findAllByNameOrAddress(name, address)
-                .stream()
-                .map(cafeMapper::entityToDto)
-                .toList();
-
-
-    }
-
 }

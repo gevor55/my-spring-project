@@ -1,9 +1,6 @@
 package com.myspringproject.service.user;
 
-import com.myspringproject.dto.user.ChangePasswordDto;
-import com.myspringproject.dto.user.UserCreationDto;
-import com.myspringproject.dto.user.UserResponseDto;
-import com.myspringproject.dto.user.UserUpdateDto;
+import com.myspringproject.dto.user.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,11 +11,14 @@ public interface UserService {
 
     Optional<UserResponseDto> findById(Long id);
 
-    UserResponseDto create(UserCreationDto user);
+    UserResponseDto create(UserRegistrationCommand user);
 
     void deleteById(Long id);
 
-    Optional<UserResponseDto> update(Long id, UserUpdateDto userDto);
+    Optional<UserResponseDto> update(Long id, UserUpdateCommand userDto);
 
-    void changePassword(Long id, ChangePasswordDto changePasswordDto);
+    void changePassword(Long id, ChangePasswordCommand changePasswordCommand);
+
+    List<UserResponseDto> searchUsers(UserSearchCommand command);
+
 }

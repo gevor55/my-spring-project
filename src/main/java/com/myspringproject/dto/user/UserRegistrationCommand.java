@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserCreationDto {
+public class UserRegistrationCommand {
 
     @NotEmpty(message = "Mandatory field")
     private String username;
