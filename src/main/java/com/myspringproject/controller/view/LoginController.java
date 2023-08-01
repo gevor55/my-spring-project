@@ -1,6 +1,6 @@
 package com.myspringproject.controller.view;
 
-import com.myspringproject.dto.user.LoginDto;
+import com.myspringproject.dto.user.LoginCommand;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +16,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(Model model, @ModelAttribute("login") LoginDto loginDto) {
+    public String login(Model model, @ModelAttribute("login") LoginCommand loginCommand) {
         return "redirect:/login";
     }
 }

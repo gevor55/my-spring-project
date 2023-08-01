@@ -5,7 +5,6 @@ import com.myspringproject.dto.user.*;
 import com.myspringproject.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,9 +19,13 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping()
-    @PreAuthorize("hasAuthority('ADMIN')")
     public List<UserResponseDto> findAllActiveUser() {
         return userService.findAllActiveUsers();
+    }
+
+    @GetMapping("/login")
+    public void login(@Valid LoginCommand command) {
+        userService.login(command);
     }
 
     @PatchMapping("/{id}/change-password")

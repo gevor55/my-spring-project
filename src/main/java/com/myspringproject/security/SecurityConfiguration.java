@@ -21,6 +21,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests()
                 .antMatchers("/api/cafes/**").hasAnyAuthority(Role.ADMIN.getAuthority())
                 .antMatchers("/api/users/**").permitAll()
+                .antMatchers("/users/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

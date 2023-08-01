@@ -21,4 +21,6 @@ public interface UserService {
 
     List<UserResponseDto> searchUsers(UserSearchCommand command);
 
+    void login(LoginCommand command);
+
 }

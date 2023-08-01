@@ -156,4 +156,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .map(userMapper::entityToDto)
                 .toList();
     }
+
+    @Override
+    public void login(LoginCommand command) {
+
+        User user = userRepository.findByUsername(command.getUsername())
+                .orElseThrow(
+                        () -> new ValidationException("The username or password is incorrect")
+                );
+
+        String currentPassword = user.getPassword();
+
+        boolean isMatches = passwordEncoder.matches(command.getPassword(), currentPassword);
+
+        if (!isMatches) {
+            throw new ValidationException("The username or password is incorrect");
+        }
+    }
 }

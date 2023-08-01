@@ -1,14 +1,19 @@
 package com.myspringproject.controller.view;
 
+import com.myspringproject.dto.user.LoginCommand;
 import com.myspringproject.dto.user.UserRegistrationCommand;
 import com.myspringproject.dto.user.UserResponseDto;
+import com.myspringproject.dto.user.UserSearchCommand;
 import com.myspringproject.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.ValidationException;
 import java.util.List;
 
 @Controller
@@ -18,6 +23,11 @@ public class UserViewController {
 
     private final UserService userService;
 
+    @ModelAttribute("searchCommand")
+    public UserSearchCommand userSearchCommand() {
+        return new UserSearchCommand();
+    }
+
 
     @GetMapping
     public String findAll(Model model) {
@@ -26,7 +36,7 @@ public class UserViewController {
 
         model.addAttribute("users", users);
 
-        return "user/users";
+        return "users";
     }
 
     @GetMapping("/{id}")
@@ -44,18 +54,39 @@ public class UserViewController {
         return "redirect:/users/" + userService.create(userRegistrationCommand);
     }
 
-//    @PostMapping("/{id}/update")
-//    public String update(@PathVariable("id") Long id, @ModelAttribute UserUpdateDto user) {
-//        return userService.update(id, user)
-//                .map(it -> "redirect:/users/{id}")
-//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-//    }
-
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") Long id) {
 
         userService.deleteById(id);
 
         return "redirect:/users";
+    }
+
+    @GetMapping("/search")
+    public String searchUsers(@ModelAttribute @Valid UserSearchCommand command, Model model) {
+        List<UserResponseDto> searchResults = userService.searchUsers(command);
+        model.addAttribute("searchResults", searchResults);
+        return "search";
+    }
+
+    @GetMapping("/login")
+    public String showLoginForm(Model model) {
+        model.addAttribute("loginCommand", new LoginCommand());
+        return "login";
+    }
+
+    @PostMapping("/login")
+    public String login(@Valid @ModelAttribute("loginCommand") LoginCommand command, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "login";
+        }
+
+        try {
+            userService.login(command);
+            return "redirect:/users";
+        } catch (ValidationException ex) {
+            bindingResult.rejectValue("password", "invalid.credentials", "Invalid username or password");
+            return "login";
+        }
     }
 }
