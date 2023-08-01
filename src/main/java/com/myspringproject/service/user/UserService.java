@@ -13,7 +13,7 @@ public interface UserService {
 
     UserResponseDto create(UserRegistrationCommand user);
 
-    void deleteById(Long id);
+    void delete(String username);
 
     Optional<UserResponseDto> update(Long id, UserUpdateCommand userDto);
 

@@ -11,6 +11,9 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 public class ChangePasswordCommand {
 
+    @NotNull(message = "Mandatory field.")
+    private String oldPassword;
+
     @NotNull(message = "Mandatory field")
     @Pattern(regexp = PatternConstants.PASSWORD_PATTERN,
             message = "New password must be at least 8 characters long and contain at least one letter and one digit")

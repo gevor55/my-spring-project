@@ -54,10 +54,10 @@ public class UserViewController {
         return "redirect:/users/" + userService.create(userRegistrationCommand);
     }
 
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") Long id) {
+    @DeleteMapping("/{username}")
+    public String delete(@PathVariable("username") String username) {
 
-        userService.deleteById(id);
+        userService.delete(username);
 
         return "redirect:/users";
     }
@@ -83,7 +83,7 @@ public class UserViewController {
 
         try {
             userService.login(command);
-            return "redirect:/users";
+            return "redirect:/users/search"; // Redirect to the search page after successful login
         } catch (ValidationException ex) {
             bindingResult.rejectValue("password", "invalid.credentials", "Invalid username or password");
             return "login";

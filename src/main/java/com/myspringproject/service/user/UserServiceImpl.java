@@ -95,10 +95,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         String currentPassword = user.getPassword();
 
-        boolean isMatches = passwordEncoder.matches(command.getNewPassword(), currentPassword);
+        boolean isMatches = passwordEncoder.matches(command.getOldPassword(), currentPassword);
 
-        if (isMatches) {
-            throw new ValidationException("The new password is the same as the current password.");
+        if (!isMatches) {
+            throw new ValidationException("Incorrect password");
         }
 
         user.setPassword(passwordEncoder.encode(command.getNewPassword()));
@@ -109,17 +109,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void deleteById(Long id) {
-        log.info("Starting delete user with id: {}.", id);
+    public void delete(String username) {
+        log.info("Starting delete user with id: {}.", username);
 
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("User with id: " + id + " not found"));
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new NotFoundException("User with username: " + username + " not found"));
 
         if (user.getUserStatus().equals(UserStatus.INACTIVE)) {
             throw new ValidationException("User status already INACTIVE");
         }
 
-        log.debug("User with id: {} successfully deleted.", id);
+        log.debug("User with id: {} successfully deleted.", username);
 
         user.setUserStatus(UserStatus.INACTIVE);
 

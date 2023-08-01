@@ -40,7 +40,7 @@ public class UserController {
         return userService.findById(id);
     }
 
-    @PostMapping()
+    @PostMapping("/register")
     public UserResponseDto register(@Valid @RequestBody UserRegistrationCommand userDto) {
         return userService.create(userDto);
     }
@@ -50,10 +50,10 @@ public class UserController {
         return userService.update(id, user);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{username}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteById(@PathVariable("id") long id) {
-        userService.deleteById(id);
+    public void delete(@PathVariable("username") String username) {
+        userService.delete(username);
     }
 
 
