@@ -5,10 +5,11 @@ import com.myspringproject.dto.user.*;
 import com.myspringproject.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
 
 @RestController
@@ -19,47 +20,59 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping()
-    public List<UserResponseDto> findAllActiveUser() {
-        return userService.findAllActiveUsers();
+    public ResponseEntity<Collection<UserResponseDto>> findAllActiveUser() {
+        Collection<UserResponseDto> userResponseDtos = userService.findAllActiveUsers();
+
+        return ResponseEntity.ok(userResponseDtos);
     }
 
     @GetMapping("/login")
-    public void login(@Valid LoginCommand command) {
+    public ResponseEntity<Void> login(@Valid LoginCommand command) {
         userService.login(command);
+
+        return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/{id}/change-password")
-    public void changePassword(@PathVariable("id") Long id, @Valid ChangePasswordCommand dto) {
-
+    public ResponseEntity<Void> changePassword(@PathVariable("id") Long id, @Valid ChangePasswordCommand dto) {
         userService.changePassword(id, dto);
 
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
-    public Optional<UserResponseDto> findById(@PathVariable("id") Long id) {
-        return userService.findById(id);
+    public ResponseEntity<Optional<UserResponseDto>> findById(@PathVariable("id") Long id) {
+        Optional<UserResponseDto> userResponseDto = userService.findById(id);
+
+        return ResponseEntity.ok(userResponseDto);
     }
 
     @PostMapping("/register")
-    public UserResponseDto register(@Valid @RequestBody UserRegistrationCommand userDto) {
-        return userService.create(userDto);
+    public ResponseEntity<UserResponseDto> register(@Valid @RequestBody UserRegistrationCommand userDto) {
+        UserResponseDto userResponseDto = userService.create(userDto);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(userResponseDto);
     }
 
     @PutMapping("/{id}")
-    public Optional<UserResponseDto> update(@PathVariable("id") Long id, @Valid @RequestBody UserUpdateCommand user) {
-        return userService.update(id, user);
+    public ResponseEntity<Optional<UserResponseDto>> update(@PathVariable("id") Long id, @Valid @RequestBody UserUpdateCommand user) {
+        Optional<UserResponseDto> userResponseDto = userService.update(id, user);
+
+        return ResponseEntity.ok(userResponseDto);
     }
 
     @DeleteMapping("/{username}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("username") String username) {
+    public ResponseEntity<?> delete(@PathVariable("username") String username) {
         userService.delete(username);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 
     @GetMapping("/search")
-    public List<UserResponseDto> searchUsers(UserSearchCommand command) {
+    public ResponseEntity<Collection<UserResponseDto>> searchUsers(UserSearchCommand command) {
+        Collection<UserResponseDto> userResponseDtos = userService.search(command);
 
-        return userService.searchUsers(command);
+        return ResponseEntity.ok(userResponseDtos);
     }
 }

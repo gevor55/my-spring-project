@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
 
 @Service
@@ -24,7 +24,7 @@ public class CafeServiceImpl implements CafeService {
     private final CafeValidatorService cafeValidatorService;
 
     @Override
-    public List<CafeResponseDto> findAll() {
+    public Collection<CafeResponseDto> findAll() {
 
         return cafeRepository.findAll()
                 .stream()

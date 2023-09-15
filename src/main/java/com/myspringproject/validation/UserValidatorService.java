@@ -21,6 +21,4 @@ public class UserValidatorService {
             throw new IllegalArgumentException("This username has benn registered. Please choose another one.");
         }
     }
-
-
 }

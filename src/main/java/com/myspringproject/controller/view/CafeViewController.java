@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
+import java.util.Collection;
 
 @Controller
 @RequestMapping("/cafes")
@@ -20,7 +20,7 @@ public class CafeViewController {
     @GetMapping()
     public String findAll(Model model) {
 
-        List<CafeResponseDto> dtoList = cafeService.findAll();
+        Collection<CafeResponseDto> dtoList = cafeService.findAll();
 
         model.addAttribute("cafes", dtoList);
 

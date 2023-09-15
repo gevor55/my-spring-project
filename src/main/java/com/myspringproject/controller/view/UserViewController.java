@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.ValidationException;
-import java.util.List;
+import java.util.Collection;
 
 @Controller
 @RequestMapping("/users")
@@ -32,7 +32,7 @@ public class UserViewController {
     @GetMapping
     public String findAll(Model model) {
 
-        List<UserResponseDto> users = userService.findAllActiveUsers();
+        Collection<UserResponseDto> users = userService.findAllActiveUsers();
 
         model.addAttribute("users", users);
 
@@ -64,7 +64,7 @@ public class UserViewController {
 
     @GetMapping("/search")
     public String searchUsers(@ModelAttribute @Valid UserSearchCommand command, Model model) {
-        List<UserResponseDto> searchResults = userService.searchUsers(command);
+        Collection<UserResponseDto> searchResults = userService.search(command);
         model.addAttribute("searchResults", searchResults);
         return "search";
     }

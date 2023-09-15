@@ -17,8 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ValidationException;
+import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 
     @Override
-    public List<UserResponseDto> findAllActiveUsers() {
+    public Collection<UserResponseDto> findAllActiveUsers() {
         return userRepository.findAllByUserStatus(UserStatus.ACTIVE)
                 .stream()
                 .map(userMapper::entityToDto)
@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserResponseDto create(UserRegistrationCommand dto) {
-        log.info("Starting create user ");
+        log.info("Starting create user with command : {}.", dto);
 
         userValidator.existsByUsername(dto.getUsername());
 
@@ -140,13 +140,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 
     @Override
-    public List<UserResponseDto> searchUsers(UserSearchCommand command) {
+    public Collection<UserResponseDto> search(UserSearchCommand command) {
 
         log.info("Searching users with command: {} ", command);
 
         Specification<User> searchSpec = UserSpecifications.findByCriteria(command);
 
-        List<User> users = userRepository.findAll(searchSpec);
+        Collection<User> users = userRepository.findAll(searchSpec);
 
         if (users.isEmpty()) {
             throw new NotFoundException("No users found with the given criteria.");

@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,7 +28,7 @@ class CafeServiceImplTest {
     @Test
     void findAll() {
 
-        List<CafeResponseDto> result = cafeService.findAll();
+        Collection<CafeResponseDto> result = cafeService.findAll();
         Assertions.assertThat(result).hasSize(2);
 
     }

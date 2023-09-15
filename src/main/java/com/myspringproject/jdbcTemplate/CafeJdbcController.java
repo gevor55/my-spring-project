@@ -1,4 +1,4 @@
-//package com.myspringproject.jdbc;
+//package com.myspringproject.jdbcTemplate;
 //
 //import com.myspringproject.entities.Cafe;
 //import lombok.RequiredArgsConstructor;
