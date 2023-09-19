@@ -1,6 +1,5 @@
 package com.myspringproject.security;
 
-import com.myspringproject.dto.user.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -19,9 +18,13 @@ public class SecurityConfiguration {
         http
                 .csrf().disable()
                 .authorizeHttpRequests()
-                .antMatchers("/api/cafes/**").hasAnyAuthority(Role.ADMIN.getAuthority())
-                .antMatchers("/api/users/**").permitAll()
-                .antMatchers("/users/**").permitAll()
+                .antMatchers(
+                        "/api/cafes/**",
+                        "/api/users/**",
+                        "/users/**",
+                        "/swagger-ui/**",
+                        "/v3/api-docs/**"
+                ).permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
