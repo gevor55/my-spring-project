@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import javax.validation.ValidationException;
 import java.util.Collection;
@@ -30,6 +31,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserMapper userMapper;
     private final UserValidatorService userValidator;
     private final PasswordEncoder passwordEncoder;
+    private final RestTemplate restTemplate;
 
 
     @Override
@@ -57,11 +59,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         log.info("User successfully created");
 
-        return Optional.of(dto)
+        UserResponseDto userResponseDto = Optional.of(dto)
                 .map(userMapper::dtoToEntity)
                 .map(userRepository::save)
                 .map(userMapper::entityToDto)
                 .orElseThrow();
+
+        String secondSpringProjectUrl = "http://localhost:5555/api/name";
+        restTemplate.postForObject(secondSpringProjectUrl, userResponseDto.getUsername(), String.class);
+
+        return userResponseDto;
     }
 
     @Override
