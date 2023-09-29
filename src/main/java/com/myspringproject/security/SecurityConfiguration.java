@@ -19,7 +19,6 @@ public class SecurityConfiguration {
                 .csrf().disable()
                 .authorizeHttpRequests()
                 .antMatchers(
-                        "/api/cafes/**",
                         "/api/users/**",
                         "/users/**",
                         "/swagger-ui/**",

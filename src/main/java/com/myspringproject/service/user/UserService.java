@@ -20,7 +20,4 @@ public interface UserService {
     void changePassword(Long id, ChangePasswordCommand changePasswordCommand);
 
     Collection<UserResponseDto> search(UserSearchCommand command);
-
-    void login(LoginCommand command);
-
 }

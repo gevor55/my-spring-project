@@ -26,13 +26,6 @@ public class UserController {
         return ResponseEntity.ok(userResponseDtos);
     }
 
-    @GetMapping("/login")
-    public ResponseEntity<Void> login(@Valid LoginCommand command) {
-        userService.login(command);
-
-        return ResponseEntity.noContent().build();
-    }
-
     @PatchMapping("/{id}/change-password")
     public ResponseEntity<Void> changePassword(@PathVariable("id") Long id, @Valid ChangePasswordCommand dto) {
         userService.changePassword(id, dto);

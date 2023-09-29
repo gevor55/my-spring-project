@@ -15,3 +15,5 @@ spring:
       ddl-auto: update
 logging:
   level: trace
+myapp:
+  greetingMessage: "something"
