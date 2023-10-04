@@ -9,11 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.ValidationException;
 import java.util.Collection;
 
 @Controller
@@ -73,20 +71,5 @@ public class UserViewController {
     public String showLoginForm(Model model) {
         model.addAttribute("loginCommand", new LoginCommand());
         return "login";
-    }
-
-    @PostMapping("/login")
-    public String login(@Valid @ModelAttribute("loginCommand") LoginCommand command, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "login";
-        }
-
-        try {
-            userService.login(command);
-            return "redirect:/users/search"; // Redirect to the search page after successful login
-        } catch (ValidationException ex) {
-            bindingResult.rejectValue("password", "invalid.credentials", "Invalid username or password");
-            return "login";
-        }
     }
 }

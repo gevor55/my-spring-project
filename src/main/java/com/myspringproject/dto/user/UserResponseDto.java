@@ -1,13 +1,17 @@
 package com.myspringproject.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.myspringproject.entities.Role;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.Collection;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class UserResponseDto {
 
     private String username;
@@ -21,5 +25,7 @@ public class UserResponseDto {
 
     private UserStatus userStatus;
 
-    private Role role;
+    private Collection<Role> role;
+
+    private String email;
 }

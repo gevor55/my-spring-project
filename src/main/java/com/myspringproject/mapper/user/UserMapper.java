@@ -21,9 +21,9 @@ public class UserMapper {
         user.setLastName(dto.getLastName());
         user.setBirthdate(dto.getBirthDate());
         user.setUserStatus(dto.getUserStatus());
-        user.setRole(dto.getRole());
+        user.setEmail(dto.getEmail());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
-
+        user.setRoles(dto.getRoles());
         return user;
     }
 
@@ -34,7 +34,8 @@ public class UserMapper {
         dto.setLastName(user.getLastName());
         dto.setBirthDate(user.getBirthdate());
         dto.setUserStatus(user.getUserStatus());
-        dto.setRole(user.getRole());
+        dto.setRole(user.getRoles());
+        dto.setEmail(user.getEmail());
 
         return dto;
     }

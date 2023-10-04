@@ -20,4 +20,6 @@ public interface UserService {
     void changePassword(Long id, ChangePasswordCommand changePasswordCommand);
 
     Collection<UserResponseDto> search(UserSearchCommand command);
+
+    Optional<UserResponseDto> findByUsername(String username);
 }

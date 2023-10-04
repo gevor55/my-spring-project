@@ -1,11 +1,13 @@
 package com.myspringproject.dto.user;
 
+import com.myspringproject.entities.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Collection;
 
 @Data
 @NoArgsConstructor
@@ -22,5 +24,5 @@ public class UserUpdateCommand {
     private String lastName;
 
     @NotNull(message = "Mandatory field")
-    private Role role;
+    private Collection<Role> role;
 }

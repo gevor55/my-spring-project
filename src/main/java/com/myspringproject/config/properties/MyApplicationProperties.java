@@ -1,4 +1,4 @@
-package com.myspringproject.config;
+package com.myspringproject.config.properties;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

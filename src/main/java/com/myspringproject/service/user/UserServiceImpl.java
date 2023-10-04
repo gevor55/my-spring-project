@@ -5,6 +5,7 @@ import com.myspringproject.dto.user.*;
 import com.myspringproject.entities.User;
 import com.myspringproject.mapper.user.UserMapper;
 import com.myspringproject.repository.UserRepository;
+import com.myspringproject.service.role.RoleService;
 import com.myspringproject.specification.user.UserSpecifications;
 import com.myspringproject.validation.UserValidatorService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final RoleService roleService;
     private final UserMapper userMapper;
     private final UserValidatorService userValidator;
     private final PasswordEncoder passwordEncoder;
@@ -50,6 +52,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDto create(UserRegistrationCommand dto) {
         log.info("Starting create user with command : {}.", dto);
+
+        if (!dto.getPassword().equals(dto.getConfirmPassword())) {
+            throw new ValidationException("Password mismatch");
+        }
 
         userValidator.existsByUsername(dto.getUsername());
 
@@ -80,7 +86,7 @@ public class UserServiceImpl implements UserService {
         user.setUsername(userDto.getUsername());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
-        user.setRole(userDto.getRole());
+        user.setRoles(userDto.getRole());
 
         userRepository.save(user);
 
@@ -146,5 +152,12 @@ public class UserServiceImpl implements UserService {
         return users.stream()
                 .map(userMapper::entityToDto)
                 .toList();
+    }
+
+    @Override
+    public Optional<UserResponseDto> findByUsername(String username) {
+        return Optional.ofNullable(userRepository.findByUsername(username)
+                .map(userMapper::entityToDto)
+                .orElseThrow(() -> new NotFoundException("User with username: " + username + " not found")));
     }
 }
