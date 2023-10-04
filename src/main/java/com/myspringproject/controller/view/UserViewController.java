@@ -1,9 +1,9 @@
 package com.myspringproject.controller.view;
 
 import com.myspringproject.dto.user.LoginCommand;
-import com.myspringproject.dto.user.UserRegistrationCommand;
+import com.myspringproject.dto.user.UserRegistrationRequest;
 import com.myspringproject.dto.user.UserResponseDto;
-import com.myspringproject.dto.user.UserSearchCommand;
+import com.myspringproject.dto.user.UserSearchRequest;
 import com.myspringproject.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,8 +22,8 @@ public class UserViewController {
     private final UserService userService;
 
     @ModelAttribute("searchCommand")
-    public UserSearchCommand userSearchCommand() {
-        return new UserSearchCommand();
+    public UserSearchRequest userSearchCommand() {
+        return new UserSearchRequest();
     }
 
 
@@ -47,21 +47,21 @@ public class UserViewController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public String crate(@ModelAttribute UserRegistrationCommand userRegistrationCommand) {
+    public String crate(@ModelAttribute UserRegistrationRequest userRegistrationCommand) {
 
         return "redirect:/users/" + userService.create(userRegistrationCommand);
     }
 
-    @DeleteMapping("/{username}")
-    public String delete(@PathVariable("username") String username) {
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable("id") Long id) {
 
-        userService.delete(username);
+        userService.delete(id);
 
         return "redirect:/users";
     }
 
     @GetMapping("/search")
-    public String searchUsers(@ModelAttribute @Valid UserSearchCommand command, Model model) {
+    public String searchUsers(@ModelAttribute @Valid UserSearchRequest command, Model model) {
         Collection<UserResponseDto> searchResults = userService.search(command);
         model.addAttribute("searchResults", searchResults);
         return "search";

@@ -11,15 +11,17 @@ public interface UserService {
 
     Optional<UserResponseDto> findById(Long id);
 
-    UserResponseDto create(UserRegistrationCommand user);
+    UserResponseDto create(UserRegistrationRequest user);
 
-    void delete(String username);
+    void delete(Long id);
 
-    Optional<UserResponseDto> update(Long id, UserUpdateCommand userDto);
+    Optional<UserResponseDto> update(Long id, UserUpdateRequest userDto);
 
-    void changePassword(Long id, ChangePasswordCommand changePasswordCommand);
+    void changePassword(Long id, ChangePasswordRequest changePasswordRequest);
 
-    Collection<UserResponseDto> search(UserSearchCommand command);
+    Collection<UserResponseDto> search(UserSearchRequest command);
 
     Optional<UserResponseDto> findByUsername(String username);
+
+    Optional<UserResponseDto> findByEmail(String email);
 }

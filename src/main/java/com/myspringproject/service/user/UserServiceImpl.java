@@ -50,13 +50,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponseDto create(UserRegistrationCommand dto) {
+    public UserResponseDto create(UserRegistrationRequest dto) {
         log.info("Starting create user with command : {}.", dto);
 
         if (!dto.getPassword().equals(dto.getConfirmPassword())) {
             throw new ValidationException("Password mismatch");
         }
 
+        userValidator.existsByEmail(dto.getEmail());
         userValidator.existsByUsername(dto.getUsername());
 
         log.info("User successfully created");
@@ -74,7 +75,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<UserResponseDto> update(Long id, UserUpdateCommand userDto) {
+    public Optional<UserResponseDto> update(Long id, UserUpdateRequest userDto) {
 
         log.info("Starting update user with id: {}", id);
 
@@ -94,7 +95,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void changePassword(Long id, ChangePasswordCommand command) {
+    public void changePassword(Long id, ChangePasswordRequest command) {
 
         log.info("Starting changing user password with id: {}", id);
 
@@ -118,17 +119,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(String username) {
-        log.info("Starting delete user with id: {}.", username);
+    public void delete(Long id) {
+        log.info("Starting delete user with id: {}.", id);
 
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new NotFoundException("User with username: " + username + " not found"));
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("User with id: " + id + " not found"));
 
         if (user.getUserStatus().equals(UserStatus.INACTIVE)) {
             throw new ValidationException("User status already INACTIVE");
         }
 
-        log.debug("User with id: {} successfully deleted.", username);
+        log.debug("User with id: {} successfully deleted.", id);
 
         user.setUserStatus(UserStatus.INACTIVE);
 
@@ -137,7 +138,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Collection<UserResponseDto> search(UserSearchCommand command) {
+    public Collection<UserResponseDto> search(UserSearchRequest command) {
 
         log.info("Searching users with command: {} ", command);
 
@@ -159,5 +160,12 @@ public class UserServiceImpl implements UserService {
         return Optional.ofNullable(userRepository.findByUsername(username)
                 .map(userMapper::entityToDto)
                 .orElseThrow(() -> new NotFoundException("User with username: " + username + " not found")));
+    }
+
+    @Override
+    public Optional<UserResponseDto> findByEmail(String email) {
+        return Optional.ofNullable(userRepository.findByEmail(email)
+                .map(userMapper::entityToDto)
+                .orElseThrow(() -> new NotFoundException("User with email: " + email + " not found")));
     }
 }

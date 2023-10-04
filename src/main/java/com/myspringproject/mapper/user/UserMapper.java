@@ -1,20 +1,28 @@
 package com.myspringproject.mapper.user;
 
-import com.myspringproject.dto.user.UserRegistrationCommand;
+import com.myspringproject.dto.user.UserRegistrationRequest;
 import com.myspringproject.dto.user.UserResponseDto;
+import com.myspringproject.entities.Role;
 import com.myspringproject.entities.User;
+import com.myspringproject.repository.RoleRepository;
+import com.myspringproject.service.role.RoleService;
 import lombok.Data;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @Data
 public class UserMapper {
 
     private final PasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
+    private final RoleService roleService;
 
 
-    public User dtoToEntity(UserRegistrationCommand dto) {
+    public User dtoToEntity(UserRegistrationRequest dto) {
         User user = new User();
         user.setUsername(dto.getUsername());
         user.setFirstName(dto.getFirstName());
@@ -23,7 +31,8 @@ public class UserMapper {
         user.setUserStatus(dto.getUserStatus());
         user.setEmail(dto.getEmail());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
-        user.setRoles(dto.getRoles());
+
+        user.setRoles(List.of(roleService.getUserRole()));
         return user;
     }
 
@@ -34,7 +43,11 @@ public class UserMapper {
         dto.setLastName(user.getLastName());
         dto.setBirthDate(user.getBirthdate());
         dto.setUserStatus(user.getUserStatus());
-        dto.setRole(user.getRoles());
+        String role = user.getRoles().stream()
+                .map(Role::getName)
+                .collect(Collectors.joining(", "));
+        dto.setRole(role);
+
         dto.setEmail(user.getEmail());
 
         return dto;

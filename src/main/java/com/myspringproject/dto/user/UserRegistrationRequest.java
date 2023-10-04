@@ -10,12 +10,12 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
-import java.util.Collection;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserRegistrationCommand {
+public class UserRegistrationRequest {
 
     @NotEmpty(message = "Mandatory field")
     private String username;
@@ -45,8 +45,8 @@ public class UserRegistrationCommand {
             message = "New password must be at least 8 characters long and contain at least one letter and one digit")
     private String confirmPassword;
 
-    @NotNull(message = "Mandatory field")
-    private Collection<Role> roles;
+    @NotEmpty(message = "Mandatory field")
+    private List<Role> roles;
 
 
 }

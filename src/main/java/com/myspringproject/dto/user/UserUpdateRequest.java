@@ -12,7 +12,7 @@ import java.util.Collection;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserUpdateCommand {
+public class UserUpdateRequest {
 
     @NotEmpty(message = "Mandatory field")
     private String username;
@@ -25,4 +25,7 @@ public class UserUpdateCommand {
 
     @NotNull(message = "Mandatory field")
     private Collection<Role> role;
+
+    @NotNull(message = "Mandatory field")
+    private String email;
 }

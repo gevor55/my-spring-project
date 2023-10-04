@@ -1,6 +1,6 @@
 package com.myspringproject.specification.user;
 
-import com.myspringproject.dto.user.UserSearchCommand;
+import com.myspringproject.dto.user.UserSearchRequest;
 import com.myspringproject.entities.User;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class UserSpecifications {
 
-    public static Specification<User> findByCriteria(UserSearchCommand command) {
+    public static Specification<User> findByCriteria(UserSearchRequest command) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 

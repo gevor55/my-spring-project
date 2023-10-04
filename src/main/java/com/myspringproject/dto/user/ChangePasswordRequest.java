@@ -9,7 +9,7 @@ import javax.validation.constraints.Pattern;
 
 @Data
 @NoArgsConstructor
-public class ChangePasswordCommand {
+public class ChangePasswordRequest {
 
     @NotNull(message = "Mandatory field.")
     private String oldPassword;

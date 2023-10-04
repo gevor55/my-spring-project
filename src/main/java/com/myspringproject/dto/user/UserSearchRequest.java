@@ -10,7 +10,7 @@ import java.util.Collection;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserSearchCommand {
+public class UserSearchRequest {
     private String username;
     private String firstName;
     private String lastName;

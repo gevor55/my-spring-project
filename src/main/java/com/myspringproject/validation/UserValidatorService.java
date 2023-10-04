@@ -22,4 +22,13 @@ public class UserValidatorService {
             throw new ValidationException("This username has benn registered. Please choose another one.");
         }
     }
+
+    public void existsByEmail(String email) {
+
+        boolean isExistsByEmail = userRepository.existsByEmail(email);
+
+        if (isExistsByEmail) {
+            throw new ValidationException("This email has benn registered. Please choose another one.");
+        }
+    }
 }
