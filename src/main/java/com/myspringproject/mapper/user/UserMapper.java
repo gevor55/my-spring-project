@@ -1,6 +1,6 @@
 package com.myspringproject.mapper.user;
 
-import com.myspringproject.dto.user.UserRegistrationRequest;
+import com.myspringproject.dto.user.RegistrationRequest;
 import com.myspringproject.dto.user.UserResponseDto;
 import com.myspringproject.entities.Role;
 import com.myspringproject.entities.User;
@@ -22,7 +22,7 @@ public class UserMapper {
     private final RoleService roleService;
 
 
-    public User dtoToEntity(UserRegistrationRequest dto) {
+    public User dtoToEntity(RegistrationRequest dto) {
         User user = new User();
         user.setUsername(dto.getUsername());
         user.setFirstName(dto.getFirstName());

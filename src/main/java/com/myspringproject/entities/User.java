@@ -50,8 +50,13 @@ public class User {
     )
     private Collection<Role> roles;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cafe_id")
-    private Cafe cafe;
+    public User(String firstName, String lastName, String email,
+                String password, Collection<Role> roles) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+    }
 
 }

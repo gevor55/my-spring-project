@@ -11,7 +11,7 @@ public interface UserService {
 
     Optional<UserResponseDto> findById(Long id);
 
-    UserResponseDto create(UserRegistrationRequest user);
+    UserResponseDto create(RegistrationRequest user);
 
     void delete(Long id);
 

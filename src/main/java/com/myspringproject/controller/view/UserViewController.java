@@ -1,7 +1,7 @@
 package com.myspringproject.controller.view;
 
 import com.myspringproject.dto.user.LoginCommand;
-import com.myspringproject.dto.user.UserRegistrationRequest;
+import com.myspringproject.dto.user.RegistrationRequest;
 import com.myspringproject.dto.user.UserResponseDto;
 import com.myspringproject.dto.user.UserSearchRequest;
 import com.myspringproject.service.user.UserService;
@@ -47,7 +47,7 @@ public class UserViewController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public String crate(@ModelAttribute UserRegistrationRequest userRegistrationCommand) {
+    public String crate(@ModelAttribute RegistrationRequest userRegistrationCommand) {
 
         return "redirect:/users/" + userService.create(userRegistrationCommand);
     }

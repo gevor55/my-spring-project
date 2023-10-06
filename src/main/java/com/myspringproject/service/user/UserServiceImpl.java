@@ -13,6 +13,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.validation.ValidationException;
@@ -50,7 +51,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponseDto create(UserRegistrationRequest dto) {
+    public UserResponseDto create(RegistrationRequest dto) {
         log.info("Starting create user with command : {}.", dto);
 
         if (!dto.getPassword().equals(dto.getConfirmPassword())) {
@@ -68,8 +69,13 @@ public class UserServiceImpl implements UserService {
                 .map(userMapper::entityToDto)
                 .orElseThrow();
 
-        String secondSpringProjectUrl = "http://localhost:5555/api/name";
-        restTemplate.postForObject(secondSpringProjectUrl, userResponseDto.getUsername(), String.class);
+
+        try {
+            String secondSpringProjectUrl = "http://localhost:5555/api/name";
+            restTemplate.postForObject(secondSpringProjectUrl, userResponseDto.getUsername(), String.class);
+        } catch (RestClientException e) {
+            log.error("Failed to connect to the second service: {}", e.getMessage());
+        }
 
         return userResponseDto;
     }

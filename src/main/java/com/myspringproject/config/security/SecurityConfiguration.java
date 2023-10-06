@@ -41,12 +41,12 @@ public class SecurityConfiguration {
                 .csrf().disable()
                 .authorizeHttpRequests()
                 .antMatchers(
-                        "/api/users/**",
+                        "/api/users/register",
                         "/swagger-ui/**",
                         "/v3/api-docs/**",
                         "/auth"
                 ).permitAll()
-                .antMatchers("/admin").hasRole("ADMIN")
+                .antMatchers("/admin", "/search").hasRole("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
