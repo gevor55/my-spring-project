@@ -36,15 +36,15 @@
 //                .findFirst();
 //    }
 //
-//    public int insert(User cafe) {
+//    public int insert(User user) {
 //
 //        String sql = """
 //                insert into users(birth_date, email, first_name , last_name  , password , status, username)
 //                values (?, ?, ?, ?, ?, ?, ?)
 //                """;
 //
-//        return jdbcTemplate.update(sql, cafe.getBirthdate(), cafe.getEmail(), cafe.getFirstName(),
-//                cafe.getLastName(), cafe.getPassword(), cafe.getUserStatus(), cafe.getUsername());
+//        return jdbcTemplate.update(sql, user.getBirthdate(), user.getEmail(), user.getFirstName(),
+//                user.getLastName(), user.getPassword(), user.getUserStatus(), user.getUsername());
 //
 //
 //    }

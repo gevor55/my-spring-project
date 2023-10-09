@@ -1,12 +1,4 @@
-create table cafe
-(
-    id      BIGSERIAL PRIMARY KEY,
-    name    VARCHAR(255)        NOT NULL,
-    address VARCHAR(255) UNIQUE NOT NULL
-);
-
-
-create table users
+CREATE TABLE users
 (
     id         BIGSERIAL PRIMARY KEY,
     username   VARCHAR(255) NOT NULL,
@@ -15,14 +7,13 @@ create table users
     birth_date date         NOT NULL,
     status     VARCHAR      NOT NULL,
     email      VARCHAR      NOT NULL,
-    password   VARCHAR(128) NOT NULL,
-    cafe_id    BIGINT REFERENCES cafe (id)
+    password   VARCHAR(128) NOT NULL
 );
 
-create table roles
+CREATE TABLE roles
 (
-    id   bigserial primary key,
-    name varchar not null
+    id   BIGSERIAL PRIMARY KEY,
+    name VARCHAR NOT NULL
 );
 
 CREATE TABLE users_roles

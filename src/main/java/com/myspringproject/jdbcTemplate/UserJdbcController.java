@@ -27,7 +27,7 @@
 //
 //
 //    @PostMapping
-//    public int create(@RequestBody User cafe) {
-//        return userJdbcService.insert(cafe);
+//    public int create(@RequestBody User user) {
+//        return userJdbcService.insert(user);
 //    }
 //}

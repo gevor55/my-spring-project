@@ -2,6 +2,7 @@ package com.myspringproject.mapper.user;
 
 import com.myspringproject.dto.user.RegistrationRequest;
 import com.myspringproject.dto.user.UserResponseDto;
+import com.myspringproject.dto.user.UserStatus;
 import com.myspringproject.entities.Role;
 import com.myspringproject.entities.User;
 import com.myspringproject.repository.RoleRepository;
@@ -28,7 +29,7 @@ public class UserMapper {
         user.setFirstName(dto.getFirstName());
         user.setLastName(dto.getLastName());
         user.setBirthdate(dto.getBirthDate());
-        user.setUserStatus(dto.getUserStatus());
+        user.setUserStatus(UserStatus.INACTIVE);
         user.setEmail(dto.getEmail());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
 

@@ -27,9 +27,6 @@ public class RegistrationRequest {
     @NotNull(message = "Mandatory field")
     private LocalDate birthDate;
 
-    @NotNull(message = "Mandatory field")
-    private UserStatus userStatus;
-
     @NotEmpty(message = "Mandatory field")
     private String email;
 
