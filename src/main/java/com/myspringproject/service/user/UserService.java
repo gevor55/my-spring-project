@@ -21,7 +21,4 @@ public interface UserService {
 
     Collection<UserResponseDto> search(UserSearchRequest command);
 
-    Optional<UserResponseDto> findByUsername(String username);
-
-    Optional<UserResponseDto> findByEmail(String email);
 }

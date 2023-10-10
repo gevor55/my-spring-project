@@ -36,7 +36,8 @@ public class SecurityConfiguration {
                         "/api/users/register",
                         "/swagger-ui/**",
                         "/v3/api-docs/**",
-                        "/authenticate"
+                        "/authenticate",
+                        "/email/**"
                 ).permitAll()
                 .antMatchers("/admin", "/search").hasRole("ADMIN")
                 .anyRequest()
