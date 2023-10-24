@@ -1,4 +1,4 @@
-package com.myspringproject.specification.user;
+package com.myspringproject.service.specification.user;
 
 import com.myspringproject.dto.user.UserSearchRequest;
 import com.myspringproject.entities.User;

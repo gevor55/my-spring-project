@@ -1,4 +1,6 @@
 spring:
+  flyway:
+    enabled: true
   main:
     banner-mode: off
   datasource:

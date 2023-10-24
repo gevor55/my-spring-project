@@ -1,4 +1,4 @@
-package com.myspringproject.service;
+package com.myspringproject.service.confirmationEmail;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;

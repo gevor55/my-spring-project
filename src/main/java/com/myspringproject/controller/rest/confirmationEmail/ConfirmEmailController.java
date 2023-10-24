@@ -1,6 +1,6 @@
-package com.myspringproject.controller.rest;
+package com.myspringproject.controller.rest.confirmationEmail;
 
-import com.myspringproject.service.ConfirmationEmailService;
+import com.myspringproject.service.confirmationEmail.ConfirmationEmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;

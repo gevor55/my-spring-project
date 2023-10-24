@@ -3,11 +3,12 @@ package com.myspringproject.service.user;
 import com.myspringproject.dto.user.*;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
 
-    Collection<UserResponseDto> findAllActiveUsers();
+    List<UserResponseDto> findAllActiveUsers();
 
     Optional<UserResponseDto> findById(Long id);
 

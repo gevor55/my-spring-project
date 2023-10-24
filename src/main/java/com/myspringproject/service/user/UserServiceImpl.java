@@ -7,9 +7,9 @@ import com.myspringproject.entities.User;
 import com.myspringproject.mapper.user.UserMapper;
 import com.myspringproject.repository.ConfirmationEmailRepository;
 import com.myspringproject.repository.UserRepository;
-import com.myspringproject.service.ConfirmationEmailService;
+import com.myspringproject.service.confirmationEmail.ConfirmationEmailService;
 import com.myspringproject.service.role.RoleService;
-import com.myspringproject.specification.user.UserSpecifications;
+import com.myspringproject.service.specification.user.UserSpecifications;
 import com.myspringproject.validation.UserValidatorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -22,6 +22,7 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.validation.ValidationException;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -40,7 +41,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public Collection<UserResponseDto> findAllActiveUsers() {
+    public List<UserResponseDto> findAllActiveUsers() {
         return userRepository.findAllByUserStatus(UserStatus.ACTIVE)
                 .stream()
                 .map(userMapper::entityToDto)

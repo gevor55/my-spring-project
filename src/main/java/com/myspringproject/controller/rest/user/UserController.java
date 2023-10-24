@@ -1,4 +1,4 @@
-package com.myspringproject.controller.rest;
+package com.myspringproject.controller.rest.user;
 
 
 import com.myspringproject.dto.user.*;
@@ -63,7 +63,7 @@ public class UserController {
 
 
     @GetMapping("/search")
-    public ResponseEntity<Collection<UserResponseDto>> searchUsers(UserSearchRequest command) {
+    public ResponseEntity<Collection<UserResponseDto>> search(UserSearchRequest command) {
         Collection<UserResponseDto> userResponseDtos = userService.search(command);
 
         return ResponseEntity.ok(userResponseDtos);

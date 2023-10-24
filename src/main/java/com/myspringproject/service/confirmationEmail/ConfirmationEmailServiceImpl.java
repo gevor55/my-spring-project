@@ -1,4 +1,4 @@
-package com.myspringproject.service;
+package com.myspringproject.service.confirmationEmail;
 
 import com.myspringproject.dto.user.UserStatus;
 import com.myspringproject.entities.ConfirmationEmailToken;
