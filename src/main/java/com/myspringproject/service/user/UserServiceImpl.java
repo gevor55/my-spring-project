@@ -2,19 +2,15 @@ package com.myspringproject.service.user;
 
 import com.myspringproject.advice.NotFoundException;
 import com.myspringproject.dto.user.*;
-import com.myspringproject.entities.ConfirmationEmailToken;
 import com.myspringproject.entities.User;
 import com.myspringproject.mapper.user.UserMapper;
-import com.myspringproject.repository.ConfirmationEmailRepository;
 import com.myspringproject.repository.UserRepository;
-import com.myspringproject.service.confirmationEmail.ConfirmationEmailService;
 import com.myspringproject.service.role.RoleService;
 import com.myspringproject.service.specification.user.UserSpecifications;
 import com.myspringproject.validation.UserValidatorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
@@ -36,8 +32,6 @@ public class UserServiceImpl implements UserService {
     private final UserValidatorService userValidator;
     private final PasswordEncoder passwordEncoder;
     private final RestTemplate restTemplate;
-    private final ConfirmationEmailRepository confirmationEmailRepository;
-    private final ConfirmationEmailService confirmationEmailService;
 
 
     @Override
@@ -72,17 +66,6 @@ public class UserServiceImpl implements UserService {
 
         User user = userRepository.save(userMapper.dtoToEntity(dto));
         UserResponseDto userResponseDto = userMapper.entityToDto(user);
-
-        ConfirmationEmailToken confirmationEmailToken = new ConfirmationEmailToken(user);
-
-        confirmationEmailRepository.save(confirmationEmailToken);
-
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(user.getEmail());
-        mailMessage.setSubject("Complete Registration!");
-        mailMessage.setText("To confirm your account, please click here : "
-                            + "http://localhost:8080/email/confirm-account?token=" + confirmationEmailToken.getConfirmationToken());
-        confirmationEmailService.sendEmail(mailMessage);
 
         try {
             String secondSpringProjectUrl = "http://localhost:5555/api/name";

@@ -24,33 +24,30 @@ public class UserMapper {
 
 
     public User dtoToEntity(RegistrationRequest dto) {
-        User user = new User();
-        user.setUsername(dto.getUsername());
-        user.setFirstName(dto.getFirstName());
-        user.setLastName(dto.getLastName());
-        user.setBirthdate(dto.getBirthDate());
-        user.setUserStatus(UserStatus.PENDING);
-        user.setEmail(dto.getEmail());
-        user.setPassword(passwordEncoder.encode(dto.getPassword()));
 
-        user.setRoles(List.of(roleService.getUserRole()));
-        return user;
+        return User.builder()
+                .username(dto.getUsername())
+                .firstName(dto.getFirstName())
+                .lastName(dto.getLastName())
+                .birthdate(dto.getBirthDate())
+                .userStatus(UserStatus.PENDING)
+                .email(dto.getEmail())
+                .password(passwordEncoder.encode(dto.getPassword()))
+                .roles(List.of(roleService.getUserRole()))
+                .build();
     }
 
     public UserResponseDto entityToDto(User user) {
-        UserResponseDto dto = new UserResponseDto();
-        dto.setUsername(user.getUsername());
-        dto.setFirstName(user.getFirstName());
-        dto.setLastName(user.getLastName());
-        dto.setBirthDate(user.getBirthdate());
-        dto.setUserStatus(user.getUserStatus());
-        String role = user.getRoles().stream()
-                .map(Role::getName)
-                .collect(Collectors.joining(", "));
-        dto.setRole(role);
 
-        dto.setEmail(user.getEmail());
-
-        return dto;
+        return UserResponseDto.builder()
+                .username(user.getUsername())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .birthDate(user.getBirthdate())
+                .userStatus(user.getUserStatus())
+                .role(user.getRoles().stream()
+                        .map(Role::getName)
+                        .collect(Collectors.joining(", ")))
+                .build();
     }
 }
