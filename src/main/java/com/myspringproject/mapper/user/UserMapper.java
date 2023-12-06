@@ -45,6 +45,7 @@ public class UserMapper {
                 .lastName(user.getLastName())
                 .birthDate(user.getBirthdate())
                 .userStatus(user.getUserStatus())
+                .email(user.getEmail())
                 .role(user.getRoles().stream()
                         .map(Role::getName)
                         .collect(Collectors.joining(", ")))

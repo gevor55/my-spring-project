@@ -16,7 +16,7 @@ public interface UserService {
 
     void delete(Long id);
 
-    Optional<UserResponseDto> update(Long id, UserUpdateRequest userDto);
+    Optional<UserResponseDto> update(String username, UserUpdateRequest userDto);
 
     void changePassword(Long id, ChangePasswordRequest changePasswordRequest);
 

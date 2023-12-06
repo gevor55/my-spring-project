@@ -47,9 +47,9 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userResponseDto);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Optional<UserResponseDto>> update(@PathVariable("id") Long id, @Valid @RequestBody UserUpdateRequest user) {
-        Optional<UserResponseDto> userResponseDto = userService.update(id, user);
+    @PutMapping("/{username}")
+    public ResponseEntity<Optional<UserResponseDto>> update(@PathVariable("username") String username, @Valid @RequestBody UserUpdateRequest user) {
+        Optional<UserResponseDto> userResponseDto = userService.update(username, user);
 
         return ResponseEntity.ok(userResponseDto);
     }

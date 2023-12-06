@@ -2,6 +2,7 @@ package com.myspringproject.dto.user;
 
 import com.myspringproject.entities.Role;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import java.util.Collection;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class UserUpdateRequest {
 
     @NotEmpty(message = "Mandatory field")

@@ -78,12 +78,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<UserResponseDto> update(Long id, UserUpdateRequest userDto) {
+    public Optional<UserResponseDto> update(String username, UserUpdateRequest userDto) {
 
-        log.info("Starting update user with id: {}", id);
+        log.info("Starting update user with username: {}", username);
 
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("User with id: " + id + " not found"));
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new NotFoundException("User with username: " + username + " not found"));
 
         userValidator.existsByUsername(userDto.getUsername());
 
