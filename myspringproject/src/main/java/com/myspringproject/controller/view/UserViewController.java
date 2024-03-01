@@ -27,15 +27,15 @@ public class UserViewController {
     }
 
 
-//    @GetMapping
-//    public String findAll(Model model) {
-//
-//        Collection<UserResponseDto> users = userService.findAllActiveUsers();
-//
-//        model.addAttribute("users", users);
-//
-//        return "users";
-//    }
+    @GetMapping
+    public String findAll(Model model) {
+
+        Collection<UserResponseDto> users = userService.findAllActiveUsers();
+
+        model.addAttribute("users", users);
+
+        return "user/users";
+    }
 
     @GetMapping("/{id}")
     public String findById(@PathVariable("id") Long id, Model model) {

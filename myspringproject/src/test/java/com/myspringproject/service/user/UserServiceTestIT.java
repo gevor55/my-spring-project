@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 //@TestPropertySource(locations = "classpath:application-test.yml")
 //@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 //@Transactional
-class UserServiceImplTest {
+class UserServiceTestIT {
 
 
     @Autowired

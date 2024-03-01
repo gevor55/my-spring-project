@@ -5,7 +5,6 @@ import com.myspringproject.dto.user.*;
 import com.myspringproject.entities.User;
 import com.myspringproject.mapper.user.UserMapper;
 import com.myspringproject.repository.UserRepository;
-import com.myspringproject.service.role.RoleService;
 import com.myspringproject.utils.specification.UserSpecifications;
 import com.myspringproject.validation.UserValidatorService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +23,6 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final RoleService roleService;
     private final UserMapper userMapper;
     private final UserValidatorService userValidator;
 //    private final PasswordEncoder passwordEncoder;

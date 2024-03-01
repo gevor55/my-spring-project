@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -23,18 +24,12 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping()
-    public ResponseEntity<Collection<UserResponseDto>> findAllActiveUser() {
-        Collection<UserResponseDto> userResponseDtos = userService.findAllActiveUsers();
+    public ResponseEntity<List<UserResponseDto>> findAllActiveUser() {
+        List<UserResponseDto> userResponseDtos = userService.findAllActiveUsers();
 
         return ResponseEntity.ok(userResponseDtos);
     }
 
-//    @PatchMapping("/{id}/change-password")
-//    public ResponseEntity<Void> changePassword(@PathVariable("id") Long id, @Valid ChangePasswordRequest dto) {
-//        userService.changePassword(id, dto);
-//
-//        return ResponseEntity.noContent().build();
-//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Optional<UserResponseDto>> findById(@PathVariable("id") Long id) {
