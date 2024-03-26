@@ -28,7 +28,7 @@ public class UserValidatorService {
         boolean isExistsByEmail = userRepository.existsByEmail(email);
 
         if (isExistsByEmail) {
-            throw new ValidationException("This email has benn registered. Please choose another one.");
+            throw new ValidationException("This email has been registered. Please choose another one.");
         }
     }
 }
