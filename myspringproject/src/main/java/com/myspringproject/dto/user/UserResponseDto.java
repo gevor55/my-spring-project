@@ -25,7 +25,5 @@ public class UserResponseDto {
 
     private UserStatus userStatus;
 
-    private String role;
-
     private String email;
 }

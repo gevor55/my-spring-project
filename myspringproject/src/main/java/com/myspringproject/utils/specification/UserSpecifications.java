@@ -34,10 +34,6 @@ public class UserSpecifications {
                 predicates.add(criteriaBuilder.equal(root.get("userStatus"), command.getStatus()));
             }
 
-            if (command.getRole() != null) {
-                predicates.add(criteriaBuilder.equal(root.get("role"), command.getRole()));
-            }
-
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }

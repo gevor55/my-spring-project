@@ -25,7 +25,6 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final UserValidatorService userValidator;
-//    private final PasswordEncoder passwordEncoder;
 
 
     @Override
@@ -76,36 +75,12 @@ public class UserServiceImpl implements UserService {
         user.setUsername(userDto.getUsername());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
-        user.setRoles(userDto.getRole());
 
         userRepository.save(user);
 
         return Optional.of(userMapper.entityToDto(user));
     }
 
-//    @Override
-//    public void changePassword(Long id, ChangePasswordRequest command) {
-//
-//        log.info("Starting changing user password with id: {}", id);
-//
-//        User user = userRepository.findByIdAndUserStatusNot(id, UserStatus.INACTIVE)
-//                .orElseThrow(() -> new NotFoundException("User with id: " + id + " not found or status is INACTIVE"));
-//
-//
-//        String currentPassword = user.getPassword();
-//
-//        boolean isMatches = passwordEncoder.matches(command.getOldPassword(), currentPassword);
-//
-//        if (!isMatches) {
-//            throw new ValidationException("Incorrect password");
-//        }
-//
-//        user.setPassword(passwordEncoder.encode(command.getNewPassword()));
-//
-//        log.info("Password successfully changed");
-//
-//        userRepository.save(user);
-//    }
 
     @Override
     public void deleteByUsername(String username) {

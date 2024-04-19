@@ -12,21 +12,26 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.ValidationException;
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+@ActiveProfiles("test")
 @SpringBootTest
-//@TestPropertySource(locations = "classpath:application-test.yml")
-//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-//@Transactional
+@TestConfiguration
+@Sql({
+        "classpath:sql/data.sql"
+})
+@Transactional
 class UserServiceTestIT {
 
 
@@ -37,18 +42,15 @@ class UserServiceTestIT {
     private UserRepository userRepository;
 
     @Test
-    @Transactional
-    void findAllActiveUsers() {
+    void testFindAllActiveUsers() {
 
         List<UserResponseDto> activeUsers = userService.findAllActiveUsers();
 
-        assertThat(activeUsers).hasSize(2);
+        assertThat(activeUsers).hasSize(1);
 
         activeUsers.forEach(user -> Assertions.assertEquals(UserStatus.ACTIVE, user.getUserStatus()));
     }
 
-    @Rollback
-    @Transactional
     @Test
     void testNotFoundActiveUsers() {
 
@@ -59,10 +61,10 @@ class UserServiceTestIT {
     }
 
     @Test
-    public void findById() {
-        Optional<User> maybeUser = userRepository.findById(1L);
+    public void testFindById() {
+        Optional<User> user = userRepository.findById(1L);
 
-        assertThat(maybeUser).isNotNull();
+        assertThat(user).isNotNull();
     }
 
     @Test
@@ -70,10 +72,9 @@ class UserServiceTestIT {
         assertThrows(NotFoundException.class, () -> userService.findById(3L));
     }
 
-    @Rollback
-    @Transactional
+
     @Test
-    void create() {
+    void testCreate() {
 
         RegistrationRequest registrationRequest = createUser();
 
@@ -87,27 +88,24 @@ class UserServiceTestIT {
         assertEquals(registrationRequest.getLastName(), createdUser.getLastName());
         assertEquals(registrationRequest.getBirthDate(), createdUser.getBirthDate());
         assertEquals(registrationRequest.getEmail(), createdUser.getEmail());
-        assertEquals(UserStatus.PENDING, createdUser.getUserStatus());
+        assertEquals(UserStatus.ACTIVE, createdUser.getUserStatus());
     }
 
-    @Rollback
-    @Transactional
     @Test
-    void updateExistingUser() {
-        Optional<UserResponseDto> user = userService.findById(1L);
+    void testUpdateExistingUser() {
+        Optional<User> user = userRepository.findByUsername("test1");
 
         UserUpdateRequest updateRequest = UserUpdateRequest.builder()
-                .username("Alex")
+                .username("Updated")
                 .firstName("Updated")
-                .lastName("User")
-                .role(Collections.emptyList())
+                .lastName("Updated")
                 .build();
 
 
         Optional<UserResponseDto> updatedUser = userService.update(user.get().getUsername(), updateRequest);
 
         assertTrue(updatedUser.isPresent());
-        assertEquals("Alex", updatedUser.get().getUsername());
+        assertEquals("Updated", updatedUser.get().getUsername());
     }
 
     @Test
@@ -117,32 +115,39 @@ class UserServiceTestIT {
                 .username("Alex")
                 .firstName("Updated")
                 .lastName("User")
-                .role(Collections.emptyList())
                 .build();
 
         assertThrows(NotFoundException.class, () -> userService.update("BBB", updateRequest));
 
     }
 
-    @Rollback
-    @Transactional
     @Test
-    public void deleteByUsername() {
+    void testDeleteByUsername() {
 
-        Optional<User> user = userRepository.findByUsername("user");
+        Optional<User> user = userRepository.findByUsername("test1");
 
         userService.deleteByUsername(user.get().getUsername());
 
-        Optional<User> userAfterDeletion = userRepository.findByUsername("user");
+        Optional<User> userAfterDeletion = userRepository.findByUsername("test1");
 
         assertEquals(UserStatus.INACTIVE, userAfterDeletion.get().getUserStatus());
     }
 
 
     @Test
-    public void deleteByUsernameNotFound() {
+    void testDeleteByUsernameNotFound() {
 
         assertThrows(NotFoundException.class, () -> userService.deleteByUsername("AAA"));
+
+    }
+
+    @Test
+    void fail_Delete_User_When_User_Status_InActive() {
+
+        Optional<User> user = userRepository.findByUsername("test2");
+
+        assertThrows(ValidationException.class,
+                () -> userService.deleteByUsername(user.get().getUsername()));
 
     }
 

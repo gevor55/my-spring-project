@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.doReturn;
 
 @ExtendWith(MockitoExtension.class)
-public class UserServiceTestUnit {
+public class UserServiceTest {
 
     @Mock
     UserService userService;
